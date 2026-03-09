@@ -1,0 +1,5 @@
+{
+  "name": "Sherpur Ever Care Hospital",
+  "description": "Professional hospital website for Sherpur Ever Care Hospital, providing emergency care, ICU, surgery, and more.",
+  "requestFramePermissions": ["geolocation"]
+}
