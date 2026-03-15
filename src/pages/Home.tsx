@@ -322,8 +322,9 @@ export default function Home() {
       {/* About Short Section */}
       <section className="py-24">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex flex-col lg:flex-row items-center gap-16">
-            <div className="lg:w-1/2 relative">
+          <div className="flex flex-col items-center gap-20">
+            {/* Circular Images Slider - Positioned between sections */}
+            <div className="relative w-full max-w-md mx-auto">
               <div className="relative z-10 w-full aspect-square rounded-full overflow-hidden shadow-2xl border-8 border-white">
                 <AnimatePresence mode="wait">
                   <motion.img 
@@ -343,9 +344,9 @@ export default function Home() {
                 <p className="text-4xl font-bold mb-1">1+</p>
                 <p className="text-sm font-medium opacity-80 uppercase tracking-wider">Years of Excellence</p>
               </div>
-              <div className="absolute -top-8 -left-8 w-64 h-64 bg-medical-light rounded-full -z-10"></div>
             </div>
-            <div className="lg:w-1/2">
+
+            <div className="text-center max-w-3xl">
               <span className="text-medical-blue font-bold tracking-widest uppercase text-sm mb-4 block">About Our Hospital</span>
               <h2 className="section-title">Providing Advanced Healthcare Solutions</h2>
               <p className="text-slate-600 mb-6 leading-relaxed">
