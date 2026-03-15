@@ -11,11 +11,15 @@ export default function Footer() {
           {/* Hospital Info */}
           <div className="space-y-6">
             <Link to="/" className="flex items-center gap-3">
-                <div className="relative">
-                  <div className="bg-medical-blue p-2 rounded-lg flex items-center justify-center">
-                    <Heart className="text-white w-6 h-6" />
-                  </div>
-                </div>
+              <img 
+                src="/image/logo.png" 
+                alt="Sherpur Ever Care Hospital" 
+                className="h-12 w-auto brightness-0 invert"
+                onError={(e) => {
+                  // Fallback if image doesn't exist
+                  (e.target as HTMLImageElement).style.display = 'none';
+                }}
+              />
               <span className="font-bold text-xl text-white">Sherpur Ever Care</span>
             </Link>
             <p className="text-sm leading-relaxed">
