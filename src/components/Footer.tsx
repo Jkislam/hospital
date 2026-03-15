@@ -14,7 +14,7 @@ export default function Footer() {
               <img 
                 src="/image/logo.png" 
                 alt="Sherpur Ever Care Hospital" 
-                className="h-12 w-auto brightness-0 invert"
+                className="h-12 w-auto"
                 onError={(e) => {
                   // Fallback if image doesn't exist
                   (e.target as HTMLImageElement).style.display = 'none';
