@@ -27,6 +27,21 @@ export default function Home() {
   const [searchQuery, setSearchQuery] = useState('');
   const [suggestions, setSuggestions] = useState<{type: 'doctor' | 'service', title: string, id?: string}[]>([]);
   const searchRef = useRef<HTMLDivElement>(null);
+  const [currentBgIndex, setCurrentBgIndex] = useState(0);
+
+  const backgroundImages = [
+    "https://images.unsplash.com/photo-1519494026892-80bbd2d6fd0d?auto=format&fit=crop&q=80&w=1920",
+    "https://images.unsplash.com/photo-1516549655169-df83a0774514?auto=format&fit=crop&q=80&w=1920",
+    "https://images.unsplash.com/photo-1581594693702-fbdc51b2763b?auto=format&fit=crop&q=80&w=1920",
+    "https://images.unsplash.com/photo-1504813184591-01592fd03cfd?auto=format&fit=crop&q=80&w=1920"
+  ];
+
+  useEffect(() => {
+    const timer = setInterval(() => {
+      setCurrentBgIndex((prev) => (prev + 1) % backgroundImages.length);
+    }, 5000);
+    return () => clearInterval(timer);
+  }, []);
 
   const handleSearch = (e: React.FormEvent | string, id?: string) => {
     const query = typeof e === 'string' ? e : searchQuery;
@@ -79,19 +94,40 @@ export default function Home() {
 
   const doctorsPreview = doctors.slice(0, 3);
 
+  const interiorImages = [
+    "https://images.unsplash.com/photo-1586773860418-d3b97978c65c?auto=format&fit=crop&q=80&w=800",
+    "https://images.unsplash.com/photo-1519494026892-80bbd2d6fd0d?auto=format&fit=crop&q=80&w=800",
+    "https://images.unsplash.com/photo-1516549655169-df83a0774514?auto=format&fit=crop&q=80&w=800",
+    "https://images.unsplash.com/photo-1581594693702-fbdc51b2763b?auto=format&fit=crop&q=80&w=800"
+  ];
+  const [currentInteriorIndex, setCurrentInteriorIndex] = useState(0);
+
+  useEffect(() => {
+    const timer = setInterval(() => {
+      setCurrentInteriorIndex((prev) => (prev + 1) % interiorImages.length);
+    }, 4000);
+    return () => clearInterval(timer);
+  }, []);
+
   return (
     <div className="overflow-hidden">
       {/* Hero Section */}
-      <section className="relative min-h-screen flex items-center pt-20">
+      <section className="relative min-h-screen flex items-center pt-20 overflow-hidden">
         <div className="absolute inset-0 z-0">
-          <img 
-            src="/image/hero-bg.jpg" 
-            alt="Hospital Background" 
-            className="w-full h-full object-cover opacity-5"
-            onError={(e) => { (e.target as HTMLImageElement).src = "https://images.unsplash.com/photo-1519494026892-80bbd2d6fd0d?auto=format&fit=crop&q=80&w=1920"; }}
-            referrerPolicy="no-referrer"
-          />
-          <div className="absolute inset-0 bg-gradient-to-r from-white via-white/80 to-transparent"></div>
+          <AnimatePresence mode="wait">
+            <motion.img 
+              key={currentBgIndex}
+              src={backgroundImages[currentBgIndex]} 
+              alt="Hospital Background" 
+              initial={{ opacity: 0, scale: 1.1 }}
+              animate={{ opacity: 0.2, scale: 1 }}
+              exit={{ opacity: 0 }}
+              transition={{ duration: 1.5 }}
+              className="absolute inset-0 w-full h-full object-cover"
+              referrerPolicy="no-referrer"
+            />
+          </AnimatePresence>
+          <div className="absolute inset-0 bg-gradient-to-r from-white via-white/90 to-white/30"></div>
         </div>
 
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
@@ -211,14 +247,14 @@ export default function Home() {
                     src="/image/hero-1.jpg" 
                     alt="Medical Team" 
                     className="rounded-2xl shadow-lg w-full h-64 object-cover"
-                    onError={(e) => { (e.target as HTMLImageElement).src = "https://images.unsplash.com/photo-1516549655169-df83a0774514?auto=format&fit=crop&q=80&w=400"; }}
+                    onError={(e) => { (e.target as HTMLImageElement).src = "https://images.unsplash.com/photo-1516549655169-df83a0774514?auto=format&fit=crop&q=80&w=800"; }}
                     referrerPolicy="no-referrer"
                   />
                   <img 
                     src="/image/hero-2.jpg" 
                     alt="Hospital Equipment" 
                     className="rounded-2xl shadow-lg w-full h-48 object-cover"
-                    onError={(e) => { (e.target as HTMLImageElement).src = "https://images.unsplash.com/photo-1581594693702-fbdc51b2763b?auto=format&fit=crop&q=80&w=400"; }}
+                    onError={(e) => { (e.target as HTMLImageElement).src = "https://images.unsplash.com/photo-1581594693702-fbdc51b2763b?auto=format&fit=crop&q=80&w=800"; }}
                     referrerPolicy="no-referrer"
                   />
                 </div>
@@ -227,14 +263,14 @@ export default function Home() {
                     src="/image/hero-3.jpg" 
                     alt="Patient Care" 
                     className="rounded-2xl shadow-lg w-full h-48 object-cover"
-                    onError={(e) => { (e.target as HTMLImageElement).src = "https://images.unsplash.com/photo-1579684385127-1ef15d508118?auto=format&fit=crop&q=80&w=400"; }}
+                    onError={(e) => { (e.target as HTMLImageElement).src = "https://images.unsplash.com/photo-1579684385127-1ef15d508118?auto=format&fit=crop&q=80&w=800"; }}
                     referrerPolicy="no-referrer"
                   />
                   <img 
                     src="/image/hero-4.jpg" 
                     alt="Surgery Room" 
                     className="rounded-2xl shadow-lg w-full h-64 object-cover"
-                    onError={(e) => { (e.target as HTMLImageElement).src = "https://images.unsplash.com/photo-1504813184591-01592fd03cfd?auto=format&fit=crop&q=80&w=400"; }}
+                    onError={(e) => { (e.target as HTMLImageElement).src = "https://images.unsplash.com/photo-1504813184591-01592fd03cfd?auto=format&fit=crop&q=80&w=800"; }}
                     referrerPolicy="no-referrer"
                   />
                 </div>
@@ -288,14 +324,20 @@ export default function Home() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex flex-col lg:flex-row items-center gap-16">
             <div className="lg:w-1/2 relative">
-              <div className="relative z-10 rounded-3xl overflow-hidden shadow-2xl">
-                <img 
-                  src="/image/about-short.jpg" 
-                  alt="Hospital Interior" 
-                  className="w-full h-full object-cover"
-                  onError={(e) => { (e.target as HTMLImageElement).src = "https://images.unsplash.com/photo-1586773860418-d3b97978c65c?auto=format&fit=crop&q=80&w=800"; }}
-                  referrerPolicy="no-referrer"
-                />
+              <div className="relative z-10 w-full aspect-square rounded-full overflow-hidden shadow-2xl border-8 border-white">
+                <AnimatePresence mode="wait">
+                  <motion.img 
+                    key={currentInteriorIndex}
+                    src={interiorImages[currentInteriorIndex]} 
+                    alt="Hospital Interior" 
+                    initial={{ opacity: 0, scale: 1.1 }}
+                    animate={{ opacity: 1, scale: 1 }}
+                    exit={{ opacity: 0, scale: 0.9 }}
+                    transition={{ duration: 0.8 }}
+                    className="absolute inset-0 w-full h-full object-cover"
+                    referrerPolicy="no-referrer"
+                  />
+                </AnimatePresence>
               </div>
               <div className="absolute -bottom-8 -right-8 bg-medical-blue text-white p-8 rounded-3xl shadow-xl z-20 hidden md:block">
                 <p className="text-4xl font-bold mb-1">1+</p>

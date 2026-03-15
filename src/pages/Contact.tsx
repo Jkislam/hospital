@@ -56,60 +56,6 @@ export default function Contact() {
         </div>
       </section>
 
-      {/* Management Team Section */}
-      <section className="py-20 bg-white border-b border-slate-100">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-16">
-            <motion.h2 
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              className="text-3xl md:text-4xl font-bold text-slate-900 mb-4"
-            >
-              Management Team
-            </motion.h2>
-            <motion.p 
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ delay: 0.1 }}
-              className="text-lg text-slate-600"
-            >
-              Meet the dedicated leaders of Sherpur Ever Care Hospital.
-            </motion.p>
-          </div>
-          
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-10">
-            {staff.map((member, index) => (
-              <motion.div 
-                key={member.id}
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ delay: index * 0.1 }}
-                className="bg-white rounded-3xl overflow-hidden shadow-xl border border-slate-100 group"
-              >
-                <div className="relative h-80 overflow-hidden">
-                  <img 
-                    src={member.img} 
-                    alt={member.name} 
-                    className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
-                    referrerPolicy="no-referrer"
-                  />
-                  <div className="absolute inset-0 bg-gradient-to-t from-medical-blue/60 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end p-6">
-                    <p className="text-white font-medium text-sm">Sherpur Ever Care Hospital Management</p>
-                  </div>
-                </div>
-                <div className="p-8 text-center bg-white">
-                  <h3 className="text-2xl font-bold text-slate-900 mb-1">{member.name}</h3>
-                  <p className="text-medical-blue font-semibold uppercase tracking-wider text-sm">{member.role}</p>
-                </div>
-              </motion.div>
-            ))}
-          </div>
-        </div>
-      </section>
-
       {/* Contact Content */}
       <section className="py-24">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -281,6 +227,60 @@ export default function Contact() {
                 </form>
               )}
             </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Management Team Section */}
+      <section className="py-20 bg-slate-50 border-t border-slate-100">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="text-center mb-16">
+            <motion.h2 
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              className="text-3xl md:text-4xl font-bold text-slate-900 mb-4"
+            >
+              Management Team
+            </motion.h2>
+            <motion.p 
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ delay: 0.1 }}
+              className="text-lg text-slate-600"
+            >
+              Meet the dedicated leaders of Sherpur Ever Care Hospital.
+            </motion.p>
+          </div>
+          
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-10">
+            {staff.map((member, index) => (
+              <motion.div 
+                key={member.id}
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ delay: index * 0.1 }}
+                className="bg-white rounded-3xl overflow-hidden shadow-xl border border-slate-100 group"
+              >
+                <div className="relative h-80 overflow-hidden">
+                  <img 
+                    src={member.img} 
+                    alt={member.name} 
+                    className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
+                    referrerPolicy="no-referrer"
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-t from-medical-blue/60 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end p-6">
+                    <p className="text-white font-medium text-sm">Sherpur Ever Care Hospital Management</p>
+                  </div>
+                </div>
+                <div className="p-8 text-center bg-white">
+                  <h3 className="text-2xl font-bold text-slate-900 mb-1">{member.name}</h3>
+                  <p className="text-medical-blue font-semibold uppercase tracking-wider text-sm">{member.role}</p>
+                </div>
+              </motion.div>
+            ))}
           </div>
         </div>
       </section>
