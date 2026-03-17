@@ -1,7 +1,9 @@
 import { Link } from 'react-router-dom';
 import { Phone, Mail, MapPin, Facebook, Instagram, Heart, MessageCircle } from 'lucide-react';
+import { useLanguage } from '../context/LanguageContext';
 
 export default function Footer() {
+  const { t } = useLanguage();
   const currentYear = new Date().getFullYear();
 
   return (
@@ -23,7 +25,7 @@ export default function Footer() {
               <span className="font-bold text-xl text-white">Sherpur Ever Care</span>
             </Link>
             <p className="text-sm leading-relaxed">
-              Sherpur Ever Care Hospital is committed to providing world-class healthcare services with compassion and excellence. Your health is our priority.
+              {t('footer.about')}
             </p>
             <div className="flex space-x-4">
               <a href="https://www.facebook.com/share/1B14LFimHq/" target="_blank" rel="noopener noreferrer" className="hover:text-medical-blue transition-colors"><Facebook size={20} /></a>
@@ -34,44 +36,43 @@ export default function Footer() {
 
           {/* Quick Links */}
           <div>
-            <h3 className="text-white font-bold text-lg mb-6">Quick Links</h3>
+            <h3 className="text-white font-bold text-lg mb-6">{t('footer.quick_links')}</h3>
             <ul className="space-y-4">
-              <li><Link to="/about" className="hover:text-white transition-colors">About Us</Link></li>
-              <li><Link to="/services" className="hover:text-white transition-colors">Our Services</Link></li>
-              <li><Link to="/doctors" className="hover:text-white transition-colors">Find a Doctor</Link></li>
-              <li><Link to="/contact" className="hover:text-white transition-colors">Contact Us</Link></li>
-              <li><Link to="/appointment" className="hover:text-white transition-colors">Book Appointment</Link></li>
+              <li><Link to="/about" className="hover:text-white transition-colors">{t('nav.about')}</Link></li>
+              <li><Link to="/services" className="hover:text-white transition-colors">{t('nav.services')}</Link></li>
+              <li><Link to="/doctors" className="hover:text-white transition-colors">{t('nav.doctors')}</Link></li>
+              <li><Link to="/blood-bank" className="hover:text-white transition-colors">{t('nav.blood_bank') || 'Blood Bank'}</Link></li>
+              <li><Link to="/contact" className="hover:text-white transition-colors">{t('nav.contact')}</Link></li>
+              <li><Link to="/appointment" className="hover:text-white transition-colors">{t('hero.book')}</Link></li>
               <li><Link to="/admin/dashboard" className="hover:text-white transition-colors">Admin Panel</Link></li>
             </ul>
           </div>
 
           {/* Services */}
           <div>
-            <h3 className="text-white font-bold text-lg mb-6">Services</h3>
+            <h3 className="text-white font-bold text-lg mb-6">{t('nav.services')}</h3>
             <ul className="space-y-4">
-              <li className="hover:text-white transition-colors">Emergency Care</li>
+              <li className="hover:text-white transition-colors">{t('services.emergency')}</li>
               <li className="hover:text-white transition-colors">ICU & CCU</li>
-              <li className="hover:text-white transition-colors">Surgery Unit</li>
-              <li className="hover:text-white transition-colors">Maternity Care</li>
-              <li className="hover:text-white transition-colors">Diagnostic Lab</li>
+              <li className="hover:text-white transition-colors">{t('services.surgery')}</li>
+              <li className="hover:text-white transition-colors">{t('services.maternity')}</li>
+              <li className="hover:text-white transition-colors">{t('services.diagnostics')}</li>
             </ul>
           </div>
 
           {/* Contact Info */}
           <div>
-            <h3 className="text-white font-bold text-lg mb-6">Contact Us</h3>
+            <h3 className="text-white font-bold text-lg mb-6">{t('footer.contact_info')}</h3>
             <ul className="space-y-4">
               <li className="flex items-start gap-3">
                 <MapPin className="text-medical-blue shrink-0 mt-1" size={18} />
                 <span className="text-sm">
-                  Nurjahan Villa, Narayanpur,<br />
-                  Sherpur Sadar Hospital Road,<br />
-                  Sherpur, Bangladesh
+                  {t('contact.location_desc')}
                 </span>
               </li>
               <li className="flex items-center gap-3">
                 <Phone className="text-medical-blue shrink-0" size={18} />
-                <span className="text-sm">01632-196797</span>
+                <span className="text-sm">01891-773078</span>
               </li>
               <li className="flex items-center gap-3">
                 <Mail className="text-medical-blue shrink-0" size={18} />
@@ -83,7 +84,7 @@ export default function Footer() {
 
         <div className="border-t border-slate-800 pt-8 flex flex-col md:flex-row justify-between items-center gap-4">
           <p className="text-sm text-slate-500">
-            © {currentYear} Sherpur Ever Care Hospital. All rights reserved.
+            © {currentYear} {t('hero.title')}. {t('footer.rights')}
           </p>
           <div className="flex gap-6 text-sm text-slate-500">
             <a href="#" className="hover:text-white">Privacy Policy</a>

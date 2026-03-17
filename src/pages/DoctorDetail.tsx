@@ -225,7 +225,7 @@ export default function DoctorDetail() {
                     <input 
                       required
                       type="tel" 
-                      placeholder="01632-196797"
+                      placeholder="01891-773078"
                       value={formData.phone}
                       onChange={(e) => setFormData({...formData, phone: e.target.value})}
                       className="w-full px-5 py-3.5 rounded-2xl border border-slate-200 focus:border-medical-blue focus:ring-4 focus:ring-medical-blue/5 outline-none transition-all text-sm"

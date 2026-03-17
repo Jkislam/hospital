@@ -1,5 +1,5 @@
 {
   "name": "Sherpur Ever Care Hospital",
-  "description": "Professional hospital website for Sherpur Ever Care Hospital, providing emergency care, ICU, surgery, and more.",
+  "description": "Sherpur Ever Care Hospital (শেরপুর এভারকেয়ার হাসপাতাল) - The best hospital in Sherpur providing 24/7 emergency care, specialized doctors, and modern medical facilities. শেরপুর এভার কেয়ার - আপনার স্বাস্থ্য আমাদের অগ্রাধিকার।",
   "requestFramePermissions": ["geolocation"]
 }

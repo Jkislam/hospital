@@ -3,12 +3,14 @@ import { motion } from 'motion/react';
 import { Search as SearchIcon, User, Activity, ArrowRight, Clock, Calendar } from 'lucide-react';
 import { SERVICES } from '../constants';
 import { useDoctors } from '../context/DoctorContext';
+import { useLanguage } from '../context/LanguageContext';
 
 export default function SearchResults() {
   const { doctors } = useDoctors();
   const [searchParams] = useSearchParams();
   const navigate = useNavigate();
   const query = searchParams.get('q')?.toLowerCase() || '';
+  const { t } = useLanguage();
 
   const filteredDoctors = doctors.filter(doc => 
     doc.name.toLowerCase().includes(query) || 
@@ -30,10 +32,10 @@ export default function SearchResults() {
             <div className="bg-medical-light p-3 rounded-xl text-medical-blue">
               <SearchIcon size={24} />
             </div>
-            <h1 className="text-3xl font-bold text-slate-900">Search Results</h1>
+            <h1 className="text-3xl font-bold text-slate-900">{t('search.results.title')}</h1>
           </div>
           <p className="text-slate-600">
-            Showing results for: <span className="font-bold text-medical-blue">"{query}"</span>
+            {t('search.results.showing')} <span className="font-bold text-medical-blue">"{query}"</span>
           </p>
         </div>
       </section>
@@ -44,9 +46,9 @@ export default function SearchResults() {
             <div className="bg-slate-100 w-20 h-20 rounded-full flex items-center justify-center mx-auto mb-6">
               <SearchIcon className="text-slate-400" size={32} />
             </div>
-            <h2 className="text-2xl font-bold text-slate-900 mb-2">No results found</h2>
-            <p className="text-slate-500 mb-8">We couldn't find anything matching your search. Please try different keywords.</p>
-            <Link to="/" className="btn-primary">Back to Home</Link>
+            <h2 className="text-2xl font-bold text-slate-900 mb-2">{t('search.results.none.title')}</h2>
+            <p className="text-slate-500 mb-8">{t('search.results.none.subtitle')}</p>
+            <Link to="/" className="btn-primary">{t('nav.home')}</Link>
           </div>
         ) : (
           <div className="space-y-16">
@@ -55,7 +57,7 @@ export default function SearchResults() {
               <div>
                 <div className="flex items-center gap-3 mb-8">
                   <User className="text-medical-blue" size={24} />
-                  <h2 className="text-2xl font-bold text-slate-900">Doctors ({filteredDoctors.length})</h2>
+                  <h2 className="text-2xl font-bold text-slate-900">{t('search.results.doctors')} ({filteredDoctors.length})</h2>
                 </div>
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
                   {filteredDoctors.map((doctor, idx) => (
@@ -73,15 +75,15 @@ export default function SearchResults() {
                         referrerPolicy="no-referrer"
                       />
                       <div className="flex-grow">
-                        <h3 className="font-bold text-lg mb-1 group-hover:text-medical-blue">{doctor.name}</h3>
-                        <p className="text-medical-blue text-sm font-medium mb-3">{doctor.specialty}</p>
+                        <h3 className="font-bold text-lg mb-1 group-hover:text-medical-blue">{t(`doctor.${doctor.id}.name`)}</h3>
+                        <p className="text-medical-blue text-sm font-medium mb-3">{t(`doctor.${doctor.id}.specialty`)}</p>
                         <div className="flex items-center gap-2 text-slate-500 text-xs mb-1">
                           <Clock size={14} />
-                          <span>{doctor.time}</span>
+                          <span>{t(`doctor.${doctor.id}.time`) || doctor.time}</span>
                         </div>
                         <div className="flex items-center gap-2 text-slate-500 text-xs">
                           <Calendar size={14} />
-                          <span>{doctor.days}</span>
+                          <span>{t(`doctor.${doctor.id}.days`) || doctor.days}</span>
                         </div>
                       </div>
                     </motion.div>
@@ -95,7 +97,7 @@ export default function SearchResults() {
               <div>
                 <div className="flex items-center gap-3 mb-8">
                   <Activity className="text-medical-blue" size={24} />
-                  <h2 className="text-2xl font-bold text-slate-900">Services ({filteredServices.length})</h2>
+                  <h2 className="text-2xl font-bold text-slate-900">{t('search.results.services')} ({filteredServices.length})</h2>
                 </div>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                   {filteredServices.map((service, idx) => (
@@ -105,10 +107,10 @@ export default function SearchResults() {
                       animate={{ opacity: 1, y: 0 }}
                       className="bg-white p-6 rounded-2xl border border-slate-100 shadow-sm hover:shadow-md transition-all"
                     >
-                      <h3 className="font-bold text-xl mb-2">{service.title}</h3>
-                      <p className="text-slate-500 text-sm mb-4 line-clamp-2">{service.desc}</p>
+                      <h3 className="font-bold text-xl mb-2">{t(`services.${service.id}.title`) || service.title}</h3>
+                      <p className="text-slate-500 text-sm mb-4 line-clamp-2">{t(`services.${service.id}.desc`) || service.desc}</p>
                       <Link to="/services" className="text-medical-blue font-semibold text-sm flex items-center gap-1">
-                        View Details <ArrowRight size={16} />
+                        {t('search.results.view_details')} <ArrowRight size={16} />
                       </Link>
                     </motion.div>
                   ))}

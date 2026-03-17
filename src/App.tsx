@@ -10,12 +10,15 @@ import Doctors from './pages/Doctors';
 import Contact from './pages/Contact';
 import SearchResults from './pages/SearchResults';
 import DoctorDetail from './pages/DoctorDetail';
+import BloodBank from './pages/BloodBank';
 import AdminLogin from './admin/AdminLogin';
 import AdminDashboard from './admin/AdminDashboard';
 import { AuthProvider, useAuth } from './context/AuthContext';
 import { DoctorProvider } from './context/DoctorContext';
 import { MessageProvider } from './context/MessageContext';
 import { StaffProvider } from './context/StaffContext';
+import { LanguageProvider } from './context/LanguageContext';
+import { BloodBankProvider } from './context/BloodBankContext';
 import ConfigCheck from './components/ConfigCheck';
 
 const ProtectedRoute = ({ children }: { children: React.ReactNode }) => {
@@ -34,54 +37,59 @@ const ProtectedRoute = ({ children }: { children: React.ReactNode }) => {
 
 export default function App() {
   return (
-    <AuthProvider>
-      <DoctorProvider>
-        <MessageProvider>
-          <StaffProvider>
-            <ConfigCheck>
-              <Router>
-                <ScrollToTop />
-                <div className="flex flex-col min-h-screen">
-                  <Routes>
-                    {/* Admin Routes - No Navbar/Footer */}
-                    <Route path="/admin/login" element={<AdminLogin />} />
-                    <Route 
-                      path="/admin/dashboard" 
-                      element={
-                        <ProtectedRoute>
-                          <AdminDashboard />
-                        </ProtectedRoute>
-                      } 
-                    />
+    <LanguageProvider>
+      <AuthProvider>
+        <DoctorProvider>
+          <MessageProvider>
+            <StaffProvider>
+              <BloodBankProvider>
+                <ConfigCheck>
+                <Router>
+                  <ScrollToTop />
+                  <div className="flex flex-col min-h-screen">
+                    <Routes>
+                      {/* Admin Routes - No Navbar/Footer */}
+                      <Route path="/admin/login" element={<AdminLogin />} />
+                      <Route 
+                        path="/admin/dashboard" 
+                        element={
+                          <ProtectedRoute>
+                            <AdminDashboard />
+                          </ProtectedRoute>
+                        } 
+                      />
 
-                    {/* Public Routes */}
-                    <Route
-                      path="*"
-                      element={
-                        <>
-                          <Navbar />
-                          <main className="flex-grow">
-                            <Routes>
-                              <Route path="/" element={<Home />} />
-                              <Route path="/about" element={<About />} />
-                              <Route path="/services" element={<Services />} />
-                              <Route path="/doctors" element={<Doctors />} />
-                              <Route path="/doctors/:id" element={<DoctorDetail />} />
-                              <Route path="/contact" element={<Contact />} />
-                              <Route path="/search" element={<SearchResults />} />
-                            </Routes>
-                          </main>
-                          <Footer />
-                        </>
-                      }
-                    />
-                  </Routes>
-                </div>
-              </Router>
-            </ConfigCheck>
+                      {/* Public Routes */}
+                      <Route
+                        path="*"
+                        element={
+                          <>
+                            <Navbar />
+                            <main className="flex-grow">
+                              <Routes>
+                                <Route path="/" element={<Home />} />
+                                <Route path="/about" element={<About />} />
+                                <Route path="/services" element={<Services />} />
+                                <Route path="/doctors" element={<Doctors />} />
+                                <Route path="/doctors/:id" element={<DoctorDetail />} />
+                                <Route path="/blood-bank" element={<BloodBank />} />
+                                <Route path="/contact" element={<Contact />} />
+                                <Route path="/search" element={<SearchResults />} />
+                              </Routes>
+                            </main>
+                            <Footer />
+                          </>
+                        }
+                      />
+                    </Routes>
+                  </div>
+                </Router>
+              </ConfigCheck>
+            </BloodBankProvider>
           </StaffProvider>
         </MessageProvider>
       </DoctorProvider>
     </AuthProvider>
+  </LanguageProvider>
   );
 }

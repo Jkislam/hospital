@@ -43,8 +43,27 @@ export const StaffProvider: React.FC<{ children: React.ReactNode }> = ({ childre
     fetchStaff();
   }, []);
 
+  const isUUID = (id: string) => {
+    const uuidRegex = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
+    return uuidRegex.test(id);
+  };
+
   const updateStaff = async (id: string, updatedStaff: Partial<StaffMember>) => {
     try {
+      if (!isSupabaseConfigured || !isUUID(id)) {
+        if (isSupabaseConfigured && !isUUID(id)) {
+          const currentMember = staff.find(s => s.id === id);
+          if (currentMember) {
+            const { id: _, ...newData } = { ...currentMember, ...updatedStaff };
+            await addStaff(newData);
+            setStaff(prev => prev.filter(s => s.id !== id));
+            return;
+          }
+        }
+        setStaff(prev => prev.map(s => s.id === id ? { ...s, ...updatedStaff } : s));
+        return;
+      }
+
       const { error } = await supabase
         .from('staff')
         .update(updatedStaff)
@@ -60,6 +79,12 @@ export const StaffProvider: React.FC<{ children: React.ReactNode }> = ({ childre
 
   const addStaff = async (newMember: Omit<StaffMember, 'id'>) => {
     try {
+      if (!isSupabaseConfigured) {
+        const member = { ...newMember, id: Math.random().toString(36).substr(2, 9) };
+        setStaff(prev => [...prev, member]);
+        return;
+      }
+
       const { data, error } = await supabase
         .from('staff')
         .insert([newMember])
@@ -77,6 +102,11 @@ export const StaffProvider: React.FC<{ children: React.ReactNode }> = ({ childre
 
   const deleteStaff = async (id: string) => {
     try {
+      if (!isSupabaseConfigured || !isUUID(id)) {
+        setStaff(prev => prev.filter(s => s.id !== id));
+        return;
+      }
+
       const { error } = await supabase
         .from('staff')
         .delete()

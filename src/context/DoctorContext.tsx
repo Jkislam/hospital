@@ -45,8 +45,19 @@ export const DoctorProvider: React.FC<{ children: React.ReactNode }> = ({ childr
     fetchDoctors();
   }, []);
 
+  const isUUID = (id: string) => {
+    const uuidRegex = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
+    return uuidRegex.test(id);
+  };
+
   const addDoctor = async (doctorData: Omit<Doctor, 'id'>) => {
     try {
+      if (!isSupabaseConfigured) {
+        const newDoctor = { ...doctorData, id: Math.random().toString(36).substr(2, 9) };
+        setDoctors(prev => [...prev, newDoctor as Doctor]);
+        return;
+      }
+
       const { data, error } = await supabase
         .from('doctors')
         .insert([doctorData])
@@ -64,6 +75,18 @@ export const DoctorProvider: React.FC<{ children: React.ReactNode }> = ({ childr
 
   const updateDoctor = async (updatedDoctor: Doctor) => {
     try {
+      if (!isSupabaseConfigured || !isUUID(updatedDoctor.id)) {
+        // Handle mock ID by inserting as new if Supabase is configured
+        if (isSupabaseConfigured && !isUUID(updatedDoctor.id)) {
+          const { id: _, ...doctorData } = updatedDoctor;
+          await addDoctor(doctorData);
+          setDoctors(prev => prev.filter(d => d.id !== updatedDoctor.id));
+          return;
+        }
+        setDoctors(prev => prev.map(d => d.id === updatedDoctor.id ? updatedDoctor : d));
+        return;
+      }
+
       const { error } = await supabase
         .from('doctors')
         .update(updatedDoctor)
@@ -79,6 +102,11 @@ export const DoctorProvider: React.FC<{ children: React.ReactNode }> = ({ childr
 
   const deleteDoctor = async (id: string) => {
     try {
+      if (!isSupabaseConfigured || !isUUID(id)) {
+        setDoctors(prev => prev.filter(d => d.id !== id));
+        return;
+      }
+
       const { error } = await supabase
         .from('doctors')
         .delete()

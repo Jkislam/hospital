@@ -20,22 +20,28 @@ import {
   Clock,
   Mail,
   Phone,
-  Shield
+  Shield,
+  Droplets,
+  MapPin
 } from 'lucide-react';
 import DoctorForm from './DoctorForm';
 import StaffForm from './StaffForm';
-import { Doctor, StaffMember } from '../types';
+import BloodDonorForm from './BloodDonorForm';
+import { Doctor, StaffMember, BloodDonor } from '../types';
+import { useBloodBank } from '../context/BloodBankContext';
 import { Link } from 'react-router-dom';
 
 export default function AdminDashboard() {
   const { doctors, deleteDoctor, loading: doctorsLoading } = useDoctors();
   const { messages, markAsRead, deleteMessage, loading: messagesLoading } = useMessages();
   const { staff, deleteStaff, loading: staffLoading } = useStaff();
+  const { donors, deleteDonor, loading: donorsLoading } = useBloodBank();
   const { logout } = useAuth();
-  const [activeTab, setActiveTab] = useState<'doctors' | 'messages' | 'staff'>('doctors');
+  const [activeTab, setActiveTab] = useState<'doctors' | 'messages' | 'staff' | 'blood-bank'>('doctors');
   const [isFormOpen, setIsFormOpen] = useState(false);
   const [editingDoctor, setEditingDoctor] = useState<Doctor | undefined>(undefined);
   const [editingStaff, setEditingStaff] = useState<StaffMember | undefined>(undefined);
+  const [editingDonor, setEditingDonor] = useState<BloodDonor | undefined>(undefined);
   const [searchQuery, setSearchQuery] = useState('');
 
   const filteredDoctors = doctors.filter(d => 
@@ -54,21 +60,37 @@ export default function AdminDashboard() {
     s.role.toLowerCase().includes(searchQuery.toLowerCase())
   );
 
+  const filteredDonors = donors.filter(d => 
+    d.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
+    d.address.toLowerCase().includes(searchQuery.toLowerCase()) ||
+    d.bloodGroup.toLowerCase().includes(searchQuery.toLowerCase())
+  );
+
   const handleEdit = (doctor: Doctor) => {
     setEditingDoctor(doctor);
     setEditingStaff(undefined);
+    setEditingDonor(undefined);
     setIsFormOpen(true);
   };
 
   const handleEditStaff = (member: StaffMember) => {
     setEditingStaff(member);
     setEditingDoctor(undefined);
+    setEditingDonor(undefined);
+    setIsFormOpen(true);
+  };
+
+  const handleEditDonor = (donor: BloodDonor) => {
+    setEditingDonor(donor);
+    setEditingDoctor(undefined);
+    setEditingStaff(undefined);
     setIsFormOpen(true);
   };
 
   const handleAdd = () => {
     setEditingDoctor(undefined);
     setEditingStaff(undefined);
+    setEditingDonor(undefined);
     setIsFormOpen(true);
   };
 
@@ -94,6 +116,20 @@ export default function AdminDashboard() {
     try {
       await deleteDoctor(id);
       toast.success('Doctor deleted successfully', { id: toastId });
+    } catch (error: any) {
+      console.error('Delete error:', error);
+      toast.error(`Failed: ${error.message || 'Unknown error'}`, { id: toastId });
+    }
+  };
+
+  const handleDeleteDonor = async (id: string) => {
+    if (!id) return;
+    if (!window.confirm('Are you sure you want to delete this donor?')) return;
+
+    const toastId = toast.loading('Deleting donor...');
+    try {
+      await deleteDonor(id);
+      toast.success('Donor deleted successfully', { id: toastId });
     } catch (error: any) {
       console.error('Delete error:', error);
       toast.error(`Failed: ${error.message || 'Unknown error'}`, { id: toastId });
@@ -175,6 +211,13 @@ export default function AdminDashboard() {
             Management
           </button>
           <button 
+            onClick={() => setActiveTab('blood-bank')}
+            className={`flex items-center gap-2 px-6 py-3 rounded-2xl font-bold transition-all whitespace-nowrap ${activeTab === 'blood-bank' ? 'bg-medical-blue text-white shadow-lg shadow-medical-blue/20' : 'bg-white text-slate-600 hover:bg-slate-100 border border-slate-200'}`}
+          >
+            <Droplets size={20} />
+            Blood Bank
+          </button>
+          <button 
             onClick={() => setActiveTab('messages')}
             className={`flex items-center gap-2 px-6 py-3 rounded-2xl font-bold transition-all whitespace-nowrap ${activeTab === 'messages' ? 'bg-medical-blue text-white shadow-lg shadow-medical-blue/20' : 'bg-white text-slate-600 hover:bg-slate-100 border border-slate-200'}`}
           >
@@ -197,6 +240,7 @@ export default function AdminDashboard() {
               placeholder={
                 activeTab === 'doctors' ? "Search doctors..." : 
                 activeTab === 'staff' ? "Search management..." : 
+                activeTab === 'blood-bank' ? "Search donors..." :
                 "Search messages..."
               }
               value={searchQuery}
@@ -211,7 +255,8 @@ export default function AdminDashboard() {
               className="flex items-center gap-2 bg-medical-blue text-white px-6 py-3 rounded-2xl font-bold hover:bg-medical-blue/90 transition-all shadow-lg shadow-medical-blue/20 w-full md:w-auto justify-center"
             >
               <Plus size={20} />
-              {activeTab === 'doctors' ? 'Add New Doctor' : 'Add New Management'}
+              {activeTab === 'doctors' ? 'Add New Doctor' : 
+               activeTab === 'staff' ? 'Add New Management' : 'Add New Donor'}
             </button>
           )}
         </div>
@@ -287,6 +332,91 @@ export default function AdminDashboard() {
                             <Search size={32} />
                           </div>
                           <p className="text-lg font-medium">No doctors found matching your search.</p>
+                        </div>
+                      </td>
+                    </tr>
+                  )}
+                </tbody>
+              </table>
+            </div>
+          </div>
+        ) : activeTab === 'blood-bank' ? (
+          /* Blood Bank Management */
+          <div className="bg-white rounded-3xl shadow-sm border border-slate-200 overflow-hidden">
+            <div className="overflow-x-auto">
+              <table className="w-full text-left border-collapse">
+                <thead>
+                  <tr className="bg-slate-50 border-b border-slate-200">
+                    <th className="px-8 py-5 text-xs font-bold text-slate-500 uppercase tracking-wider">Donor</th>
+                    <th className="px-8 py-5 text-xs font-bold text-slate-500 uppercase tracking-wider">Blood Group</th>
+                    <th className="px-8 py-5 text-xs font-bold text-slate-500 uppercase tracking-wider">Location</th>
+                    <th className="px-8 py-5 text-xs font-bold text-slate-500 uppercase tracking-wider">Phone</th>
+                    <th className="px-8 py-5 text-xs font-bold text-slate-500 uppercase tracking-wider text-right">Actions</th>
+                  </tr>
+                </thead>
+                <tbody className="divide-y divide-slate-100">
+                  {filteredDonors.map((donor) => (
+                    <tr key={donor.id} className="hover:bg-slate-50/50 transition-colors group">
+                      <td className="px-8 py-6">
+                        <div className="flex items-center gap-4">
+                          <img 
+                            src={donor.img || 'https://images.unsplash.com/photo-1612349317150-e413f6a5b16d?auto=format&fit=crop&q=80&w=200'} 
+                            alt={donor.name} 
+                            className="w-12 h-12 rounded-xl object-cover border border-slate-200"
+                            referrerPolicy="no-referrer"
+                          />
+                          <div className="font-bold text-slate-900">{donor.name}</div>
+                        </div>
+                      </td>
+                      <td className="px-8 py-6">
+                        <span className="inline-flex items-center justify-center w-10 h-10 rounded-xl bg-red-50 text-red-500 font-bold border border-red-100">
+                          {donor.bloodGroup}
+                        </span>
+                      </td>
+                      <td className="px-8 py-6">
+                        <div className="flex items-center text-slate-600 text-sm">
+                          <MapPin size={14} className="mr-2 text-slate-400" />
+                          {donor.address}
+                        </div>
+                      </td>
+                      <td className="px-8 py-6">
+                        <div className="flex items-center text-slate-600 text-sm">
+                          <Phone size={14} className="mr-2 text-slate-400" />
+                          {donor.phone}
+                        </div>
+                      </td>
+                      <td className="px-8 py-6 text-right">
+                        <div className="flex items-center justify-end gap-2">
+                          <button 
+                            onClick={() => handleEditDonor(donor)}
+                            className="p-2 rounded-lg text-slate-400 hover:text-medical-blue hover:bg-medical-blue/10 transition-all"
+                            title="Edit"
+                          >
+                            <Edit2 size={18} />
+                          </button>
+                          <button 
+                            type="button"
+                            onClick={(e) => {
+                              e.stopPropagation();
+                              handleDeleteDonor(donor.id);
+                            }}
+                            className="relative z-10 p-2 rounded-lg text-slate-400 hover:text-red-600 hover:bg-red-50 transition-all cursor-pointer"
+                            title="Delete"
+                          >
+                            <Trash2 size={18} />
+                          </button>
+                        </div>
+                      </td>
+                    </tr>
+                  ))}
+                  {filteredDonors.length === 0 && (
+                    <tr>
+                      <td colSpan={5} className="px-8 py-20 text-center text-slate-500">
+                        <div className="flex flex-col items-center gap-4">
+                          <div className="w-16 h-16 bg-slate-100 rounded-full flex items-center justify-center text-slate-300">
+                            <Search size={32} />
+                          </div>
+                          <p className="text-lg font-medium">No donors found matching your search.</p>
                         </div>
                       </td>
                     </tr>
@@ -465,18 +595,26 @@ export default function AdminDashboard() {
             onClose={() => setIsFormOpen(false)} 
           />
         )}
-        {isFormOpen && !editingDoctor && !editingStaff && (
-          activeTab === 'doctors' ? (
-            <DoctorForm onClose={() => setIsFormOpen(false)} />
-          ) : (
-            <StaffForm onClose={() => setIsFormOpen(false)} />
-          )
-        )}
         {isFormOpen && editingStaff && (
           <StaffForm 
             member={editingStaff} 
             onClose={() => setIsFormOpen(false)} 
           />
+        )}
+        {isFormOpen && editingDonor && (
+          <BloodDonorForm 
+            donor={editingDonor} 
+            onClose={() => setIsFormOpen(false)} 
+          />
+        )}
+        {isFormOpen && !editingDoctor && !editingStaff && !editingDonor && (
+          activeTab === 'doctors' ? (
+            <DoctorForm onClose={() => setIsFormOpen(false)} />
+          ) : activeTab === 'staff' ? (
+            <StaffForm onClose={() => setIsFormOpen(false)} />
+          ) : (
+            <BloodDonorForm onClose={() => setIsFormOpen(false)} />
+          )
         )}
       </AnimatePresence>
     </div>

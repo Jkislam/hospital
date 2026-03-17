@@ -69,7 +69,7 @@ export default function Doctors() {
                   </div>
 
                   <div className="mt-8 space-y-3">
-                    <a href="tel:01632196797" className="flex items-center justify-center gap-2 w-full py-3 rounded-xl border-2 border-medical-blue text-medical-blue font-bold hover:bg-medical-blue hover:text-white transition-all">
+                    <a href="tel:01891773078" className="flex items-center justify-center gap-2 w-full py-3 rounded-xl border-2 border-medical-blue text-medical-blue font-bold hover:bg-medical-blue hover:text-white transition-all">
                       <Phone size={18} /> Call for Info
                     </a>
                     <a 

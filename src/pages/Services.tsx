@@ -76,8 +76,8 @@ export default function Services() {
           <h2 className="text-3xl font-bold mb-6">Need Emergency Medical Assistance?</h2>
           <p className="text-xl mb-10 opacity-90">Our emergency team is ready 24/7 to help you.</p>
           <div className="flex flex-col sm:flex-row justify-center gap-4">
-            <a href="tel:01632196797" className="bg-white text-medical-blue px-8 py-4 rounded-xl font-bold text-lg hover:bg-slate-100 transition-all">
-              Call Now: 01632-196797
+            <a href="tel:01891773078" className="bg-white text-medical-blue px-8 py-4 rounded-xl font-bold text-lg hover:bg-slate-100 transition-all">
+              Call Now: 01891-773078
             </a>
             <a href="/contact" className="border-2 border-white text-white px-8 py-4 rounded-xl font-bold text-lg hover:bg-white hover:text-medical-blue transition-all">
               Contact Us

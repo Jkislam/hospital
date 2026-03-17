@@ -34,3 +34,13 @@ export interface StaffMember {
   role: string;
   img: string;
 }
+
+export interface BloodDonor {
+  id: string;
+  name: string;
+  bloodGroup: string;
+  address: string;
+  phone: string;
+  lastDonation?: string;
+  img?: string;
+}

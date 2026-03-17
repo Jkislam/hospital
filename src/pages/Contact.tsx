@@ -84,8 +84,8 @@ export default function Contact() {
                   <div>
                     <h4 className="text-xl font-bold mb-2">Phone Number</h4>
                     <p className="text-slate-600 leading-relaxed">
-                      Emergency: 01632-196797<br />
-                      Help Desk: 01632-196797
+                      Emergency: 01891-773078<br />
+                      Help Desk: 01891-773078
                     </p>
                   </div>
                 </div>
@@ -170,7 +170,7 @@ export default function Contact() {
                         value={formData.phone}
                         onChange={(e) => setFormData({...formData, phone: e.target.value})}
                         className="w-full px-4 py-3 rounded-xl border border-slate-200 focus:border-medical-blue focus:ring-2 focus:ring-medical-blue/20 outline-none transition-all"
-                        placeholder="01632-196797"
+                        placeholder="01891-773078"
                       />
                     </div>
                     <div>

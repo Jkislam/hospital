@@ -1,13 +1,18 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
-import { Menu, X, Phone, Heart, Search, User, Activity } from 'lucide-react';
+import { Menu, X, Phone, Heart, Search, User, Activity, HeartPulse } from 'lucide-react';
 import { motion, AnimatePresence } from 'motion/react';
 import { DOCTORS, SERVICES } from '../constants';
+import { useLanguage } from '../context/LanguageContext';
+import LanguageToggle from './LanguageToggle';
 
 import { useDoctors } from '../context/DoctorContext';
+import { useBloodBank } from '../context/BloodBankContext';
 
 export default function Navbar() {
+  const { t } = useLanguage();
   const { doctors } = useDoctors();
+  const { donors } = useBloodBank();
   const [isOpen, setIsOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
   const [showSearch, setShowSearch] = useState(false);
@@ -31,12 +36,16 @@ export default function Navbar() {
     navigate('/');
   };
 
-  const handleSearch = (e: React.FormEvent | string, id?: string) => {
+  const handleSearch = (e: React.FormEvent | string, id?: string, type?: string) => {
     const query = typeof e === 'string' ? e : searchQuery;
     if (typeof e !== 'string') e.preventDefault();
     
     if (id && typeof e === 'string') {
-      navigate(`/doctors/${id}`);
+      if (type === 'donor') {
+        navigate('/blood-bank');
+      } else {
+        navigate(`/doctors/${id}`);
+      }
       setShowSearch(false);
       setSearchQuery('');
       setSuggestions([]);
@@ -58,15 +67,19 @@ export default function Navbar() {
         .filter(d => d.name.toLowerCase().includes(q) || d.specialty.toLowerCase().includes(q))
         .map(d => ({ type: 'doctor' as const, title: d.name, id: d.id }));
       
+      const donorSuggestions = donors
+        .filter(d => d.name.toLowerCase().includes(q) || d.bloodGroup.toLowerCase().includes(q))
+        .map(d => ({ type: 'donor' as const, title: `${d.name} (${d.bloodGroup})`, id: d.id }));
+      
       const serSuggestions = SERVICES
         .filter(s => s.title.toLowerCase().includes(q))
         .map(s => ({ type: 'service' as const, title: s.title }));
       
-      setSuggestions([...docSuggestions, ...serSuggestions].slice(0, 6));
+      setSuggestions([...docSuggestions, ...donorSuggestions, ...serSuggestions].slice(0, 6));
     } else {
       setSuggestions([]);
     }
-  }, [searchQuery, doctors]);
+  }, [searchQuery, doctors, donors]);
 
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
@@ -93,11 +106,12 @@ export default function Navbar() {
   }, [location]);
 
   const navLinks = [
-    { name: 'Home', path: '/' },
-    { name: 'About', path: '/about' },
-    { name: 'Services', path: '/services' },
-    { name: 'Doctors', path: '/doctors' },
-    { name: 'Contact', path: '/contact' },
+    { name: t('nav.home'), path: '/' },
+    { name: t('nav.about'), path: '/about' },
+    { name: t('nav.services'), path: '/services' },
+    { name: t('nav.doctors'), path: '/doctors' },
+    { name: t('nav.blood_bank') || 'Blood Bank', path: '/blood-bank' },
+    { name: t('nav.contact'), path: '/contact' },
   ];
 
   return (
@@ -131,6 +145,7 @@ export default function Navbar() {
 
           {/* Desktop Nav */}
           <div className="hidden md:flex items-center space-x-6">
+            <LanguageToggle />
             {navLinks.map((link) => (
               <Link
                 key={link.name}
@@ -182,10 +197,16 @@ export default function Navbar() {
                               <button
                                 key={i}
                                 type="button"
-                                onClick={() => handleSearch(s.title, s.id)}
+                                onClick={() => handleSearch(s.title, s.id, s.type)}
                                 className="w-full px-4 py-2 text-left text-sm hover:bg-slate-50 flex items-center gap-2 transition-colors border-b border-slate-50 last:border-0"
                               >
-                                {s.type === 'doctor' ? <User size={14} className="text-medical-blue" /> : <Activity size={14} className="text-medical-blue" />}
+                                {s.type === 'doctor' ? (
+                                  <User size={14} className="text-medical-blue" />
+                                ) : s.type === 'donor' ? (
+                                  <HeartPulse size={14} className="text-red-600" />
+                                ) : (
+                                  <Activity size={14} className="text-medical-blue" />
+                                )}
                                 <span className="truncate">{s.title}</span>
                               </button>
                             ))}
@@ -200,16 +221,17 @@ export default function Navbar() {
 
             {/* Emergency Button */}
             <a 
-              href="tel:01632196797" 
+              href="tel:01891773078" 
               className="flex items-center gap-2 bg-medical-blue text-white px-5 py-2.5 rounded-full font-semibold hover:bg-blue-700 transition-all shadow-md"
             >
               <Phone size={18} />
-              <span>Emergency</span>
+              <span>{t('hero.emergency')}</span>
             </a>
           </div>
 
           {/* Mobile Menu Button */}
           <div className="md:hidden flex items-center gap-4">
+            <LanguageToggle />
             <button 
               onClick={() => setShowSearch(!showSearch)}
               className="text-slate-600 hover:text-medical-blue"
@@ -261,10 +283,16 @@ export default function Navbar() {
                       <button
                         key={i}
                         type="button"
-                        onClick={() => handleSearch(s.title, s.id)}
+                        onClick={() => handleSearch(s.title, s.id, s.type)}
                         className="w-full px-4 py-3 text-left text-sm hover:bg-slate-50 flex items-center gap-3 border-b border-slate-50 last:border-0"
                       >
-                        {s.type === 'doctor' ? <User size={16} className="text-medical-blue" /> : <Activity size={16} className="text-medical-blue" />}
+                        {s.type === 'doctor' ? (
+                          <User size={16} className="text-medical-blue" />
+                        ) : s.type === 'donor' ? (
+                          <HeartPulse size={16} className="text-red-600" />
+                        ) : (
+                          <Activity size={16} className="text-medical-blue" />
+                        )}
                         <span>{s.title}</span>
                       </button>
                     ))}
@@ -301,7 +329,7 @@ export default function Navbar() {
               ))}
               <div className="pt-4 space-y-3">
                 <a 
-                  href="tel:01632196797" 
+                  href="tel:01891773078" 
                   className="flex items-center justify-center gap-2 w-full bg-medical-blue text-white px-5 py-3 rounded-xl font-semibold"
                 >
                   <Phone size={18} />

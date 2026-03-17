@@ -75,35 +75,86 @@ export const DOCTORS = [
 
 export const SERVICES = [
   { 
+    id: 'emergency',
     title: 'Emergency Care', 
     desc: 'Our 24/7 emergency department is equipped to handle all types of medical emergencies with a rapid response team of specialists.' 
   },
   { 
+    id: 'icu',
     title: 'ICU & CCU', 
     desc: 'Advanced Intensive Care and Coronary Care Units with continuous monitoring and life-support systems for critical patients.' 
   },
   { 
+    id: 'surgery',
     title: 'Surgery Unit', 
     desc: 'Modern operation theaters for all types of major and minor surgeries, including normal deliveries and cesarean sections, performed 24 hours a day.' 
   },
   { 
+    id: 'maternity',
     title: 'Maternity Care', 
     desc: 'Comprehensive prenatal, delivery, and postnatal care. Normal deliveries and cesarean sections are performed 24 hours a day.' 
   },
   { 
+    id: 'diagnostics',
     title: 'Diagnostic Lab', 
     desc: 'Fully automated lab providing 24-hour ultrasonograms, anomaly scans, echocardiograms, digital X-rays, and 12-channel ECG services.' 
   },
   { 
+    id: 'pharmacy',
     title: 'Pharmacy', 
     desc: 'In-house pharmacy stocked with authentic medicines and healthcare products, available 24 hours for our patients.' 
   },
   { 
+    id: 'ambulance',
     title: 'Ambulance Service', 
     desc: 'Reliable 24/7 ambulance service equipped with oxygen and basic life support for safe patient transportation.' 
   },
   { 
+    id: 'opd',
     title: 'Outpatient (OPD)', 
     desc: 'Consultations with specialists across various departments including Medicine, Surgery, Pediatrics, and Gynecology.' 
   },
+];
+
+export const BLOOD_DONORS = [
+  {
+    id: 'donor-1',
+    name: 'Md. Rahim Uddin',
+    bloodGroup: 'A+',
+    address: 'Narayanpur, Sherpur',
+    phone: '01891-773078',
+    img: 'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&q=80&w=200'
+  },
+  {
+    id: 'donor-2',
+    name: 'Sabbir Ahmed',
+    bloodGroup: 'B+',
+    address: 'Sadar Hospital Road, Sherpur',
+    phone: '01711-223344',
+    img: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&q=80&w=200'
+  },
+  {
+    id: 'donor-3',
+    name: 'Karim Ullah',
+    bloodGroup: 'O+',
+    address: 'Gouripur, Sherpur',
+    phone: '01911-556677',
+    img: 'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?auto=format&fit=crop&q=80&w=200'
+  },
+  {
+    id: 'donor-4',
+    name: 'Abdur Rahman',
+    bloodGroup: 'AB+',
+    address: 'Khowarpar, Sherpur',
+    phone: '01511-889900',
+    img: 'https://images.unsplash.com/photo-1539571696357-5a69c17a67c6?auto=format&fit=crop&q=80&w=200'
+  },
+  {
+    id: 'donor-5',
+    name: 'Selim Reza',
+    bloodGroup: 'O-',
+    address: 'Nabinagar, Sherpur',
+    phone: '01611-112233',
+    img: 'https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?auto=format&fit=crop&q=80&w=200'
+  }
 ];
