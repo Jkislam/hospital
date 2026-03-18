@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
 import { Link, useNavigate } from 'react-router-dom';
+import { Helmet } from 'react-helmet-async';
 import { 
   Phone, 
   ArrowRight, 
@@ -124,6 +125,49 @@ export default function Home() {
 
   return (
     <div className="overflow-hidden">
+      <Helmet>
+        <title>Sherpur Ever Care Hospital | Best Hospital in Sherpur | শেরপুর এভারকেয়ার হাসপাতাল</title>
+        <meta name="description" content="Sherpur Ever Care Hospital (শেরপুর এভারকেয়ার হাসপাতাল) is the best hospital in Sherpur providing 24/7 emergency care, specialized doctors, and modern medical facilities. Visit the leading Sherpur hospital for quality healthcare." />
+        <meta name="keywords" content="Sherpur hospital, Best Hospital in Sherpur, Sherpur Ever Care Hospital, শেরপুর এভারকেয়ার হাসপাতাল, Sherpur medical services, emergency care Sherpur" />
+        <link rel="canonical" href="http://sherpurevarcarehospital.com/" />
+        
+        {/* JSON-LD Schema for Hospital */}
+        <script type="application/ld+json">
+          {JSON.stringify({
+            "@context": "https://schema.org",
+            "@type": "Hospital",
+            "name": "Sherpur Ever Care Hospital",
+            "alternateName": "শেরপুর এভারকেয়ার হাসপাতাল",
+            "url": "http://sherpurevarcarehospital.com/",
+            "logo": "http://sherpurevarcarehospital.com/logo.png",
+            "image": "https://images.unsplash.com/photo-1519494026892-80bbd2d6fd0d?auto=format&fit=crop&q=80&w=1920",
+            "description": "Sherpur Ever Care Hospital is the leading healthcare provider in Sherpur district, offering 24/7 emergency care, diagnostics, surgery, and maternity services.",
+            "address": {
+              "@type": "PostalAddress",
+              "streetAddress": "Nurjahan Villa, Narayanpur, Sherpur Sadar Hospital Road",
+              "addressLocality": "Sherpur",
+              "addressRegion": "Mymensingh",
+              "postalCode": "2100",
+              "addressCountry": "BD"
+            },
+            "geo": {
+              "@type": "GeoCoordinates",
+              "latitude": "25.0194",
+              "longitude": "90.0125"
+            },
+            "telephone": "+8801891773078",
+            "openingHours": "Mo-Su 00:00-23:59",
+            "contactPoint": {
+              "@type": "ContactPoint",
+              "telephone": "+8801891773078",
+              "contactType": "emergency",
+              "areaServed": "BD",
+              "availableLanguage": ["Bengali", "English"]
+            }
+          })}
+        </script>
+      </Helmet>
+
       {/* Hero Section */}
       <section className="relative min-h-screen flex items-center pt-20 overflow-hidden">
         <div className="absolute inset-0 z-0">
@@ -138,6 +182,8 @@ export default function Home() {
               transition={{ duration: 1.5 }}
               className="absolute inset-0 w-full h-full object-cover"
               referrerPolicy="no-referrer"
+              // @ts-ignore
+              fetchPriority="high"
             />
           </AnimatePresence>
           <div className="absolute inset-0 bg-gradient-to-r from-white via-white/90 to-white/30"></div>

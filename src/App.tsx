@@ -19,6 +19,7 @@ import { MessageProvider } from './context/MessageContext';
 import { StaffProvider } from './context/StaffContext';
 import { LanguageProvider } from './context/LanguageContext';
 import { BloodBankProvider } from './context/BloodBankContext';
+import { HelmetProvider } from 'react-helmet-async';
 import ConfigCheck from './components/ConfigCheck';
 
 const ProtectedRoute = ({ children }: { children: React.ReactNode }) => {
@@ -37,7 +38,8 @@ const ProtectedRoute = ({ children }: { children: React.ReactNode }) => {
 
 export default function App() {
   return (
-    <LanguageProvider>
+    <HelmetProvider>
+      <LanguageProvider>
       <AuthProvider>
         <DoctorProvider>
           <MessageProvider>
@@ -91,5 +93,6 @@ export default function App() {
       </DoctorProvider>
     </AuthProvider>
   </LanguageProvider>
+  </HelmetProvider>
   );
 }

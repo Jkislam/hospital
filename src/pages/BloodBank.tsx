@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { motion } from 'motion/react';
+import { Helmet } from 'react-helmet-async';
 import { Phone, MapPin, Droplets, Search } from 'lucide-react';
 import { useBloodBank } from '../context/BloodBankContext';
 import { useLanguage } from '../context/LanguageContext';
@@ -21,6 +22,12 @@ export default function BloodBank() {
 
   return (
     <div className="pt-24 min-h-screen bg-slate-50">
+      <Helmet>
+        <title>Blood Bank | Sherpur Ever Care Hospital | শেরপুর এভারকেয়ার হাসপাতাল</title>
+        <meta name="description" content="Find blood donors in Sherpur at Sherpur Ever Care Hospital (শেরপুর এভারকেয়ার হাসপাতাল). Search by blood group and connect with donors to save lives." />
+        <meta name="keywords" content="Sherpur blood bank, blood donors Sherpur, find blood Sherpur, শেরপুর ব্লাড ব্যাংক, রক্তদাতা শেরপুর" />
+        <link rel="canonical" href="http://sherpurevarcarehospital.com/blood-bank" />
+      </Helmet>
       {/* Page Header */}
       <section className="bg-white py-20 border-b border-slate-100">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">

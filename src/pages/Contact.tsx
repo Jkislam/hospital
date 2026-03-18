@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { motion } from 'motion/react';
+import { Helmet } from 'react-helmet-async';
 import { MapPin, Phone, Mail, Clock, Send, CheckCircle, MessageCircle, User } from 'lucide-react';
 import { useMessages } from '../context/MessageContext';
 import { useStaff } from '../context/StaffContext';
@@ -40,6 +41,12 @@ export default function Contact() {
 
   return (
     <div className="pt-24">
+      <Helmet>
+        <title>Contact Us | Sherpur Ever Care Hospital | শেরপুর এভারকেয়ার হাসপাতাল</title>
+        <meta name="description" content="Contact Sherpur Ever Care Hospital (শেরপুর এভারকেয়ার হাসপাতাল) for appointments and emergency care. Find our address, phone number, and location in Sherpur." />
+        <meta name="keywords" content="Contact Sherpur hospital, Sherpur Ever Care Hospital location, hospital phone number Sherpur, শেরপুর এভারকেয়ার হাসপাতাল যোগাযোগ" />
+        <link rel="canonical" href="http://sherpurevarcarehospital.com/contact" />
+      </Helmet>
       {/* Page Header */}
       <section className="bg-slate-50 py-20">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">

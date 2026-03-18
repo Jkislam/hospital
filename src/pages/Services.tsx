@@ -1,4 +1,5 @@
 import { motion } from 'motion/react';
+import { Helmet } from 'react-helmet-async';
 import { 
   Activity, 
   HeartPulse, 
@@ -28,6 +29,12 @@ export default function Services() {
 
   return (
     <div className="pt-24">
+      <Helmet>
+        <title>Our Services | Sherpur Ever Care Hospital | শেরপুর এভারকেয়ার হাসপাতাল</title>
+        <meta name="description" content="Explore the specialized medical services at Sherpur Ever Care Hospital (শেরপুর এভারকেয়ার হাসপাতাল), including emergency care, diagnostics, surgery, and maternity." />
+        <meta name="keywords" content="Sherpur hospital services, medical diagnostics Sherpur, surgery Sherpur, maternity care Sherpur, শেরপুর এভারকেয়ার হাসপাতাল সার্ভিস" />
+        <link rel="canonical" href="http://sherpurevarcarehospital.com/services" />
+      </Helmet>
       {/* Page Header */}
       <section className="bg-slate-50 py-20">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">

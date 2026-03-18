@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { motion } from 'motion/react';
+import { Helmet } from 'react-helmet-async';
 import { ShieldCheck, Target, Eye, Award, CheckCircle2, Users } from 'lucide-react';
 import { useLanguage } from '../context/LanguageContext';
 
@@ -17,6 +18,12 @@ export default function About() {
 
   return (
     <div className="pt-24">
+      <Helmet>
+        <title>About Us | Sherpur Ever Care Hospital | শেরপুর এভারকেয়ার হাসপাতাল</title>
+        <meta name="description" content="Learn about Sherpur Ever Care Hospital (শেরপুর এভারকেয়ার হাসপাতাল), our mission, vision, and the team dedicated to providing the best healthcare services in Sherpur." />
+        <meta name="keywords" content="About Sherpur Ever Care Hospital, Sherpur hospital history, best medical team Sherpur, শেরপুর এভারকেয়ার হাসপাতাল সম্পর্কে" />
+        <link rel="canonical" href="http://sherpurevarcarehospital.com/about" />
+      </Helmet>
       {/* Page Header */}
       <section className="bg-slate-50 py-20">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">

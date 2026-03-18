@@ -1,5 +1,6 @@
 import { motion } from 'motion/react';
 import { Link } from 'react-router-dom';
+import { Helmet } from 'react-helmet-async';
 import { Clock, Calendar, Phone, MessageCircle } from 'lucide-react';
 import { useDoctors } from '../context/DoctorContext';
 
@@ -8,6 +9,12 @@ export default function Doctors() {
 
   return (
     <div className="pt-24">
+      <Helmet>
+        <title>Our Doctors | Sherpur Ever Care Hospital | শেরপুর এভারকেয়ার হাসপাতাল</title>
+        <meta name="description" content="Meet the specialist doctors at Sherpur Ever Care Hospital (শেরপুর এভারকেয়ার হাসপাতাল). Book appointments with the best medical professionals in Sherpur." />
+        <meta name="keywords" content="Sherpur doctors, specialist doctors Sherpur, best doctors in Sherpur, শেরপুর এভারকেয়ার হাসপাতাল ডাক্তার" />
+        <link rel="canonical" href="http://sherpurevarcarehospital.com/doctors" />
+      </Helmet>
       {/* Page Header */}
       <section className="bg-slate-50 py-20">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">

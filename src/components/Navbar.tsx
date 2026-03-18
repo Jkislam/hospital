@@ -133,8 +133,8 @@ export default function Navbar() {
                 (e.target as HTMLImageElement).parentElement!.classList.add('flex-row');
               }}
             />
-            <div className="flex flex-col">
-              <span className={`font-bold text-xl leading-none ${scrolled ? 'text-medical-blue' : 'text-slate-900'}`}>
+            <div className="flex flex-col max-w-[150px] xs:max-w-none">
+              <span className={`font-bold text-lg sm:text-xl leading-none ${scrolled ? 'text-medical-blue' : 'text-slate-900'}`}>
                 Sherpur Ever Care
               </span>
               <span className="text-[10px] uppercase tracking-widest text-slate-500 font-semibold">
@@ -230,17 +230,17 @@ export default function Navbar() {
           </div>
 
           {/* Mobile Menu Button */}
-          <div className="md:hidden flex items-center gap-4">
+          <div className="md:hidden flex items-center gap-1 shrink-0">
             <LanguageToggle />
             <button 
               onClick={() => setShowSearch(!showSearch)}
-              className="text-slate-600 hover:text-medical-blue"
+              className={`p-2 rounded-lg transition-colors ${scrolled ? 'text-medical-blue hover:bg-slate-100' : 'text-medical-blue bg-white/80 shadow-sm'} `}
             >
               <Search size={24} />
             </button>
             <button
               onClick={() => setIsOpen(!isOpen)}
-              className="text-slate-600 hover:text-medical-blue focus:outline-none"
+              className={`p-2 rounded-lg transition-colors ${scrolled ? 'text-medical-blue hover:bg-slate-100' : 'text-medical-blue bg-white/80 shadow-sm'} focus:outline-none`}
             >
               {isOpen ? <X size={28} /> : <Menu size={28} />}
             </button>
