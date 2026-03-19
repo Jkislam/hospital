@@ -11,9 +11,9 @@ export default function About() {
     t('about.page.why.excellence'),
     t('feat.emergency'),
     t('feat.expert'),
-    'Compassionate Nursing Staff',
-    'Modern Operation Theaters',
-    'Clean & Safe Environment'
+    t('feat.nursing'),
+    t('feat.ot'),
+    t('feat.environment')
   ];
 
   return (
