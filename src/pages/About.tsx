@@ -8,12 +8,12 @@ export default function About() {
   const { t } = useLanguage();
 
   const features = [
-    t('about.page.why.excellence'),
-    t('feat.emergency'),
-    t('feat.expert'),
-    t('feat.nursing'),
-    t('feat.ot'),
-    t('feat.environment')
+    t('about_page_why_excellence'),
+    t('feat_emergency'),
+    t('feat_expert'),
+    t('feat_nursing'),
+    t('feat_ot'),
+    t('feat_environment')
   ];
 
   return (
@@ -32,10 +32,10 @@ export default function About() {
             animate={{ opacity: 1, y: 0 }}
             className="text-4xl md:text-5xl font-bold text-slate-900 mb-6"
           >
-            {t('about.page.title')}
+            {t('about_page_title')}
           </motion.h1>
           <p className="text-lg text-slate-600 max-w-3xl mx-auto">
-            {t('about.page.subtitle')}
+            {t('about_page_subtitle')}
           </p>
         </div>
       </section>
@@ -54,12 +54,12 @@ export default function About() {
               />
             </div>
             <div className="lg:w-1/2">
-              <h2 className="text-3xl font-bold mb-6 text-slate-900">{t('about.page.story.title')}</h2>
+              <h2 className="text-3xl font-bold mb-6 text-slate-900">{t('about_page_story_title')}</h2>
               <p className="text-slate-600 mb-6 leading-relaxed">
-                {t('about.page.story.desc1')}
+                {t('about_page_story_desc1')}
               </p>
               <p className="text-slate-600 mb-8 leading-relaxed">
-                {t('about.page.story.desc2')}
+                {t('about_page_story_desc2')}
               </p>
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 {features.map((item, idx) => (
@@ -85,9 +85,9 @@ export default function About() {
               <div className="bg-medical-light w-16 h-16 rounded-2xl flex items-center justify-center mb-8">
                 <Target className="text-medical-blue" size={32} />
               </div>
-              <h3 className="text-2xl font-bold mb-4">{t('about.page.mission.title')}</h3>
+              <h3 className="text-2xl font-bold mb-4">{t('about_page_mission_title')}</h3>
               <p className="text-slate-600 leading-relaxed">
-                {t('about.page.mission.desc')}
+                {t('about_page_mission_desc')}
               </p>
             </motion.div>
             <motion.div 
@@ -97,9 +97,9 @@ export default function About() {
               <div className="bg-medical-light w-16 h-16 rounded-2xl flex items-center justify-center mb-8">
                 <Eye className="text-medical-blue" size={32} />
               </div>
-              <h3 className="text-2xl font-bold mb-4">{t('about.page.vision.title')}</h3>
+              <h3 className="text-2xl font-bold mb-4">{t('about_page_vision_title')}</h3>
               <p className="text-slate-600 leading-relaxed">
-                {t('about.page.vision.desc')}
+                {t('about_page_vision_desc')}
               </p>
             </motion.div>
           </div>
@@ -110,8 +110,8 @@ export default function About() {
       <section className="py-24">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-16">
-            <h2 className="text-3xl font-bold mb-4">{t('about.page.why.title')}</h2>
-            <p className="text-slate-600">{t('about.page.why.subtitle')}</p>
+            <h2 className="text-3xl font-bold mb-4">{t('about_page_why_title')}</h2>
+            <p className="text-slate-600">{t('about_page_why_subtitle')}</p>
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
@@ -119,22 +119,22 @@ export default function About() {
               <div className="bg-medical-light w-20 h-20 rounded-full flex items-center justify-center mx-auto mb-6">
                 <Award className="text-medical-blue" size={32} />
               </div>
-              <h4 className="text-xl font-bold mb-3">{t('about.page.why.excellence')}</h4>
-              <p className="text-slate-500 text-sm">{t('about.page.why.excellence.desc')}</p>
+              <h4 className="text-xl font-bold mb-3">{t('about_page_why_excellence')}</h4>
+              <p className="text-slate-500 text-sm">{t('about_page_why_excellence_desc')}</p>
             </div>
             <div className="text-center p-8">
               <div className="bg-medical-light w-20 h-20 rounded-full flex items-center justify-center mx-auto mb-6">
                 <ShieldCheck className="text-medical-blue" size={32} />
               </div>
-              <h4 className="text-xl font-bold mb-3">{t('about.page.why.trust')}</h4>
-              <p className="text-slate-500 text-sm">{t('about.page.why.trust.desc')}</p>
+              <h4 className="text-xl font-bold mb-3">{t('about_page_why_trust')}</h4>
+              <p className="text-slate-500 text-sm">{t('about_page_why_trust_desc')}</p>
             </div>
             <div className="text-center p-8">
               <div className="bg-medical-light w-20 h-20 rounded-full flex items-center justify-center mx-auto mb-6">
                 <Users className="text-medical-blue" size={32} />
               </div>
-              <h4 className="text-xl font-bold mb-3">{t('about.page.why.compassion')}</h4>
-              <p className="text-slate-500 text-sm">{t('about.page.why.compassion.desc')}</p>
+              <h4 className="text-xl font-bold mb-3">{t('about_page_why_compassion')}</h4>
+              <p className="text-slate-500 text-sm">{t('about_page_why_compassion_desc')}</p>
             </div>
           </div>
         </div>

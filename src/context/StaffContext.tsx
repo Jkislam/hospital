@@ -1,6 +1,7 @@
 import React, { createContext, useContext, useState, useEffect } from 'react';
 import { StaffMember } from '../types';
 import { supabase, isSupabaseConfigured } from '../lib/supabase';
+import { STAFF } from '../constants';
 
 interface StaffContextType {
   staff: StaffMember[];
@@ -34,6 +35,8 @@ export const StaffProvider: React.FC<{ children: React.ReactNode }> = ({ childre
       setStaff(data || []);
     } catch (error) {
       console.error('Error fetching staff:', error);
+      // Fallback to constants if fetch fails
+      setStaff(STAFF as StaffMember[]);
     } finally {
       setLoading(false);
     }

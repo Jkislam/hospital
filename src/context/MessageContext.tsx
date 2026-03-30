@@ -34,6 +34,8 @@ export const MessageProvider: React.FC<{ children: React.ReactNode }> = ({ child
       setMessages(data || []);
     } catch (error) {
       console.error('Error fetching messages:', error);
+      // Fallback to empty array if fetch fails
+      setMessages([]);
     } finally {
       setLoading(false);
     }

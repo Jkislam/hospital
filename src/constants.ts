@@ -158,3 +158,20 @@ export const BLOOD_DONORS = [
     img: 'https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?auto=format&fit=crop&q=80&w=200'
   }
 ];
+
+export const STAFF = [
+  {
+    id: 'staff-1',
+    name: 'Md. Karim',
+    role: 'Receptionist',
+    phone: '01891-773078',
+    img: 'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&q=80&w=200'
+  },
+  {
+    id: 'staff-2',
+    name: 'Sultana Begum',
+    role: 'Nurse',
+    phone: '01711-223344',
+    img: 'https://images.unsplash.com/photo-1544005313-94ddf0286df2?auto=format&fit=crop&q=80&w=200'
+  }
+];

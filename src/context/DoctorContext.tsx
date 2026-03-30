@@ -36,6 +36,8 @@ export const DoctorProvider: React.FC<{ children: React.ReactNode }> = ({ childr
       setDoctors(data || []);
     } catch (error) {
       console.error('Error fetching doctors:', error);
+      // Fallback to constants if fetch fails
+      setDoctors(DOCTORS);
     } finally {
       setLoading(false);
     }

@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
-import { Menu, X, Phone, Heart, Search, User, Activity, HeartPulse } from 'lucide-react';
+import { Menu, X, Phone, Heart, User, Activity, HeartPulse } from 'lucide-react';
 import { motion, AnimatePresence } from 'motion/react';
 import { DOCTORS, SERVICES } from '../constants';
 import { useLanguage } from '../context/LanguageContext';
@@ -15,10 +15,6 @@ export default function Navbar() {
   const { donors } = useBloodBank();
   const [isOpen, setIsOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
-  const [showSearch, setShowSearch] = useState(false);
-  const [searchQuery, setSearchQuery] = useState('');
-  const [suggestions, setSuggestions] = useState<{type: 'doctor' | 'service', title: string, id?: string}[]>([]);
-  const searchRef = useRef<HTMLDivElement>(null);
   const location = useLocation();
   const navigate = useNavigate();
   const [user, setUser] = useState<any>(null);
@@ -36,61 +32,6 @@ export default function Navbar() {
     navigate('/');
   };
 
-  const handleSearch = (e: React.FormEvent | string, id?: string, type?: string) => {
-    const query = typeof e === 'string' ? e : searchQuery;
-    if (typeof e !== 'string') e.preventDefault();
-    
-    if (id && typeof e === 'string') {
-      if (type === 'donor') {
-        navigate('/blood-bank');
-      } else {
-        navigate(`/doctors/${id}`);
-      }
-      setShowSearch(false);
-      setSearchQuery('');
-      setSuggestions([]);
-      return;
-    }
-
-    if (query.trim()) {
-      navigate(`/search?q=${encodeURIComponent(query)}`);
-      setShowSearch(false);
-      setSearchQuery('');
-      setSuggestions([]);
-    }
-  };
-
-  useEffect(() => {
-    if (searchQuery.trim().length > 1) {
-      const q = searchQuery.toLowerCase();
-      const docSuggestions = doctors
-        .filter(d => d.name.toLowerCase().includes(q) || d.specialty.toLowerCase().includes(q))
-        .map(d => ({ type: 'doctor' as const, title: d.name, id: d.id }));
-      
-      const donorSuggestions = donors
-        .filter(d => d.name.toLowerCase().includes(q) || d.bloodGroup.toLowerCase().includes(q))
-        .map(d => ({ type: 'donor' as const, title: `${d.name} (${d.bloodGroup})`, id: d.id }));
-      
-      const serSuggestions = SERVICES
-        .filter(s => s.title.toLowerCase().includes(q))
-        .map(s => ({ type: 'service' as const, title: s.title }));
-      
-      setSuggestions([...docSuggestions, ...donorSuggestions, ...serSuggestions].slice(0, 6));
-    } else {
-      setSuggestions([]);
-    }
-  }, [searchQuery, doctors, donors]);
-
-  useEffect(() => {
-    const handleClickOutside = (event: MouseEvent) => {
-      if (searchRef.current && !searchRef.current.contains(event.target as Node)) {
-        setSuggestions([]);
-      }
-    };
-    document.addEventListener('mousedown', handleClickOutside);
-    return () => document.removeEventListener('mousedown', handleClickOutside);
-  }, []);
-
   useEffect(() => {
     const handleScroll = () => {
       setScrolled(window.scrollY > 20);
@@ -102,7 +43,6 @@ export default function Navbar() {
   // Close mobile menu on route change
   useEffect(() => {
     setIsOpen(false);
-    setShowSearch(false);
   }, [location]);
 
   const navLinks = [
@@ -158,67 +98,6 @@ export default function Navbar() {
               </Link>
             ))}
             
-            {/* Search Bar Desktop */}
-            <div className="relative flex items-center" ref={searchRef}>
-              <button 
-                onClick={() => setShowSearch(!showSearch)}
-                className={`p-2 rounded-full transition-colors ${scrolled ? 'hover:bg-slate-100 text-slate-600' : 'hover:bg-white/10 text-slate-900'}`}
-              >
-                <Search size={20} />
-              </button>
-              <AnimatePresence>
-                {showSearch && (
-                  <motion.div
-                    initial={{ opacity: 0, width: 0 }}
-                    animate={{ opacity: 1, width: 240 }}
-                    exit={{ opacity: 0, width: 0 }}
-                    className="absolute right-full mr-2"
-                  >
-                    <form onSubmit={handleSearch} className="relative">
-                      <input 
-                        type="text" 
-                        placeholder="Search doctors..." 
-                        value={searchQuery}
-                        onChange={(e) => setSearchQuery(e.target.value)}
-                        className="w-full px-4 py-1.5 rounded-full border border-slate-200 focus:border-medical-blue focus:ring-2 focus:ring-medical-blue/20 outline-none text-sm bg-white"
-                        autoFocus
-                      />
-                      
-                      {/* Suggestions Dropdown */}
-                      <AnimatePresence>
-                        {suggestions.length > 0 && (
-                          <motion.div
-                            initial={{ opacity: 0, y: 10 }}
-                            animate={{ opacity: 1, y: 0 }}
-                            exit={{ opacity: 0, y: 10 }}
-                            className="absolute top-full mt-2 w-full bg-white rounded-xl shadow-xl border border-slate-100 overflow-hidden z-50"
-                          >
-                            {suggestions.map((s, i) => (
-                              <button
-                                key={i}
-                                type="button"
-                                onClick={() => handleSearch(s.title, s.id, s.type)}
-                                className="w-full px-4 py-2 text-left text-sm hover:bg-slate-50 flex items-center gap-2 transition-colors border-b border-slate-50 last:border-0"
-                              >
-                                {s.type === 'doctor' ? (
-                                  <User size={14} className="text-medical-blue" />
-                                ) : s.type === 'donor' ? (
-                                  <HeartPulse size={14} className="text-red-600" />
-                                ) : (
-                                  <Activity size={14} className="text-medical-blue" />
-                                )}
-                                <span className="truncate">{s.title}</span>
-                              </button>
-                            ))}
-                          </motion.div>
-                        )}
-                      </AnimatePresence>
-                    </form>
-                  </motion.div>
-                )}
-              </AnimatePresence>
-            </div>
-
             {/* Emergency Button */}
             <a 
               href="tel:01891773078" 
@@ -232,12 +111,6 @@ export default function Navbar() {
           {/* Mobile Menu Button */}
           <div className="md:hidden flex items-center gap-1 shrink-0">
             <LanguageToggle />
-            <button 
-              onClick={() => setShowSearch(!showSearch)}
-              className={`p-2 rounded-lg transition-colors ${scrolled ? 'text-medical-blue hover:bg-slate-100' : 'text-medical-blue bg-white/80 shadow-sm'} `}
-            >
-              <Search size={24} />
-            </button>
             <button
               onClick={() => setIsOpen(!isOpen)}
               className={`p-2 rounded-lg transition-colors ${scrolled ? 'text-medical-blue hover:bg-slate-100' : 'text-medical-blue bg-white/80 shadow-sm'} focus:outline-none`}
@@ -247,62 +120,6 @@ export default function Navbar() {
           </div>
         </div>
       </div>
-
-      {/* Mobile Search Bar */}
-      <AnimatePresence>
-        {showSearch && (
-          <motion.div
-            initial={{ opacity: 0, y: -10 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: -10 }}
-            className="md:hidden bg-white border-b border-slate-100 px-4 py-3"
-          >
-            <div className="relative">
-              <form onSubmit={handleSearch} className="relative">
-                <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400" size={18} />
-                <input 
-                  type="text" 
-                  placeholder="Search doctors, services..." 
-                  value={searchQuery}
-                  onChange={(e) => setSearchQuery(e.target.value)}
-                  className="w-full pl-10 pr-4 py-2 rounded-xl border border-slate-200 focus:border-medical-blue outline-none text-sm"
-                  autoFocus
-                />
-              </form>
-
-              {/* Mobile Suggestions */}
-              <AnimatePresence>
-                {suggestions.length > 0 && (
-                  <motion.div
-                    initial={{ opacity: 0, height: 0 }}
-                    animate={{ opacity: 1, height: 'auto' }}
-                    exit={{ opacity: 0, height: 0 }}
-                    className="mt-2 bg-white rounded-xl overflow-hidden border border-slate-100"
-                  >
-                    {suggestions.map((s, i) => (
-                      <button
-                        key={i}
-                        type="button"
-                        onClick={() => handleSearch(s.title, s.id, s.type)}
-                        className="w-full px-4 py-3 text-left text-sm hover:bg-slate-50 flex items-center gap-3 border-b border-slate-50 last:border-0"
-                      >
-                        {s.type === 'doctor' ? (
-                          <User size={16} className="text-medical-blue" />
-                        ) : s.type === 'donor' ? (
-                          <HeartPulse size={16} className="text-red-600" />
-                        ) : (
-                          <Activity size={16} className="text-medical-blue" />
-                        )}
-                        <span>{s.title}</span>
-                      </button>
-                    ))}
-                  </motion.div>
-                )}
-              </AnimatePresence>
-            </div>
-          </motion.div>
-        )}
-      </AnimatePresence>
 
       {/* Mobile Nav */}
       <AnimatePresence>
