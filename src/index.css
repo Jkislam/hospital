@@ -2,8 +2,11 @@
 
 @theme {
   --font-sans: "Inter", ui-sans-serif, system-ui, sans-serif;
+  --font-display: "Outfit", sans-serif;
   --color-medical-blue: #0056b3;
   --color-medical-light: #e7f1ff;
+  --color-medical-teal: #0d9488;
+  --color-medical-emerald: #059669;
 }
 
 @layer base {
@@ -11,23 +14,38 @@
     scroll-behavior: smooth;
   }
   body {
-    @apply font-sans text-slate-900 bg-white;
+    @apply font-sans text-slate-900 bg-white antialiased;
+  }
+  h1, h2, h3, h4, h5, h6 {
+    @apply font-display tracking-tight;
   }
 }
 
 @layer components {
   .btn-primary {
-    @apply bg-medical-blue text-white px-6 py-3 rounded-lg font-semibold hover:bg-blue-700 transition-all duration-300 shadow-md hover:shadow-lg active:scale-95;
+    @apply bg-medical-blue text-white px-8 py-4 rounded-2xl font-semibold hover:bg-blue-700 transition-all duration-300 shadow-lg shadow-medical-blue/20 hover:shadow-xl hover:shadow-medical-blue/30 active:scale-95;
   }
   .btn-outline {
-    @apply border-2 border-medical-blue text-medical-blue px-6 py-3 rounded-lg font-semibold hover:bg-medical-blue hover:text-white transition-all duration-300 active:scale-95;
+    @apply border-2 border-medical-blue text-medical-blue px-8 py-4 rounded-2xl font-semibold hover:bg-medical-blue hover:text-white transition-all duration-300 active:scale-95;
   }
   .section-title {
-    @apply text-3xl md:text-4xl font-bold text-slate-900 mb-4;
+    @apply text-4xl md:text-5xl lg:text-6xl font-bold text-slate-900 mb-6 leading-[1.1];
   }
   .card {
-    @apply bg-white p-6 rounded-2xl border border-slate-100 shadow-sm hover:shadow-xl transition-all duration-300;
+    @apply bg-white p-8 rounded-[2.5rem] border border-slate-100 shadow-sm hover:shadow-2xl hover:shadow-medical-blue/5 transition-all duration-500;
+  }
+  .glass {
+    @apply bg-white/70 backdrop-blur-xl border border-white/20 shadow-xl;
+  }
+  .editorial-title {
+    @apply text-6xl md:text-8xl lg:text-9xl font-black tracking-tighter leading-none;
+  }
+  .micro-label {
+    @apply text-xs font-black uppercase tracking-[0.3em] text-medical-blue mb-4 block;
+  }
+  .bento-card {
+    @apply relative overflow-hidden rounded-[3rem] p-12 bg-white border border-slate-100 shadow-xl shadow-slate-200/50 hover:shadow-2xl transition-all duration-500;
   }
 }
 
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Outfit:wght@400;500;600;700;800&display=swap');

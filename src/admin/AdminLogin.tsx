@@ -3,6 +3,7 @@ import { useNavigate, Link } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 import { motion } from 'motion/react';
 import { Lock, Mail, AlertCircle } from 'lucide-react';
+import { useLanguage } from '../context/LanguageContext';
 
 export default function AdminLogin() {
   const [email, setEmail] = useState('');
@@ -11,6 +12,7 @@ export default function AdminLogin() {
   const [loading, setLoading] = useState(false);
   const { login } = useAuth();
   const navigate = useNavigate();
+  const { t } = useLanguage();
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -22,7 +24,7 @@ export default function AdminLogin() {
     if (result.success) {
       navigate('/admin/dashboard');
     } else {
-      setError(result.error || 'Invalid email or password. Please try again.');
+      setError(result.error || t('admin.login.error_invalid'));
       setLoading(false);
     }
   };
@@ -32,9 +34,9 @@ export default function AdminLogin() {
       {/* Top Quick Navigation */}
       <nav className="bg-slate-900 text-white py-2.5">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex justify-center gap-8 text-sm font-bold">
-          <Link to="/" className="hover:text-medical-blue transition-colors">Home</Link>
-          <Link to="/about" className="hover:text-medical-blue transition-colors">About</Link>
-          <Link to="/contact" className="hover:text-medical-blue transition-colors">Contact</Link>
+          <Link to="/" className="hover:text-medical-blue transition-colors">{t('nav.home')}</Link>
+          <Link to="/about" className="hover:text-medical-blue transition-colors">{t('nav.about')}</Link>
+          <Link to="/contact" className="hover:text-medical-blue transition-colors">{t('nav.contact')}</Link>
         </div>
       </nav>
 
@@ -48,8 +50,8 @@ export default function AdminLogin() {
           <div className="inline-flex items-center justify-center w-16 h-16 rounded-2xl bg-medical-blue/10 text-medical-blue mb-6">
             <Lock size={32} />
           </div>
-          <h1 className="text-3xl font-bold text-slate-900 mb-2">Admin Portal</h1>
-          <p className="text-slate-500">Secure access to hospital management</p>
+          <h1 className="text-3xl font-bold text-slate-900 mb-2">{t('admin.login.title')}</h1>
+          <p className="text-slate-500">{t('admin.login.subtitle')}</p>
         </div>
 
         {error && (
@@ -65,7 +67,7 @@ export default function AdminLogin() {
 
         <form onSubmit={handleSubmit} className="space-y-6">
           <div>
-            <label className="block text-sm font-semibold text-slate-700 mb-2">Email Address</label>
+            <label className="block text-sm font-semibold text-slate-700 mb-2">{t('admin.login.email_label')}</label>
             <div className="relative">
               <Mail className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400" size={18} />
               <input 
@@ -80,7 +82,7 @@ export default function AdminLogin() {
           </div>
 
           <div>
-            <label className="block text-sm font-semibold text-slate-700 mb-2">Password</label>
+            <label className="block text-sm font-semibold text-slate-700 mb-2">{t('admin.login.password_label')}</label>
             <div className="relative">
               <Lock className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400" size={18} />
               <input 
@@ -99,13 +101,13 @@ export default function AdminLogin() {
             disabled={loading}
             className="w-full bg-medical-blue text-white py-4 rounded-xl font-bold text-lg hover:bg-medical-blue/90 transition-all shadow-lg shadow-medical-blue/20 disabled:opacity-50 disabled:cursor-not-allowed"
           >
-            {loading ? 'Signing In...' : 'Sign In'}
+            {loading ? t('admin.login.signing_in') : t('admin.login.sign_in')}
           </button>
         </form>
 
         <div className="mt-8 text-center">
           <p className="text-xs text-slate-400">
-            This is a restricted area. Unauthorized access is prohibited.
+            {t('admin.login.restricted')}
           </p>
         </div>
       </motion.div>

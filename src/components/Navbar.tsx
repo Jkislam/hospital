@@ -75,10 +75,10 @@ export default function Navbar() {
             />
             <div className="flex flex-col max-w-[150px] xs:max-w-none">
               <span className={`font-bold text-lg sm:text-xl leading-none ${scrolled ? 'text-medical-blue' : 'text-slate-900'}`}>
-                Sherpur Ever Care
+                {t('nav.brand')}
               </span>
               <span className="text-[10px] uppercase tracking-widest text-slate-500 font-semibold">
-                Hospital
+                {t('nav.hospital')}
               </span>
             </div>
           </Link>
@@ -150,7 +150,7 @@ export default function Navbar() {
                   className="flex items-center justify-center gap-2 w-full bg-medical-blue text-white px-5 py-3 rounded-xl font-semibold"
                 >
                   <Phone size={18} />
-                  <span>Emergency Call</span>
+                  <span>{t('hero.emergency')}</span>
                 </a>
               </div>
             </div>

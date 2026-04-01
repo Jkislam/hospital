@@ -30,11 +30,18 @@ export const MessageProvider: React.FC<{ children: React.ReactNode }> = ({ child
         .select('*')
         .order('created_at', { ascending: false });
 
-      if (error) throw error;
+      if (error) {
+        console.warn('Supabase fetch failed for messages:', error.message);
+        setMessages([]);
+        return;
+      }
       setMessages(data || []);
     } catch (error) {
-      console.error('Error fetching messages:', error);
-      // Fallback to empty array if fetch fails
+      if (error instanceof TypeError && error.message === 'Failed to fetch') {
+        console.warn('Network error: Failed to fetch from Supabase. Using empty messages.');
+      } else {
+        console.error('Error fetching messages:', error);
+      }
       setMessages([]);
     } finally {
       setLoading(false);
@@ -53,14 +60,30 @@ export const MessageProvider: React.FC<{ children: React.ReactNode }> = ({ child
         created_at: new Date().toISOString()
       };
 
-      const { data, error } = await supabase
-        .from('messages')
-        .insert([newMessage])
-        .select();
+      if (!isSupabaseConfigured) {
+        const mockMessage = { ...newMessage, id: Math.random().toString(36).substr(2, 9) };
+        setMessages(prev => [mockMessage as Message, ...prev]);
+        return;
+      }
 
-      if (error) throw error;
-      if (data) {
-        setMessages(prev => [data[0], ...prev]);
+      try {
+        const { data, error } = await supabase
+          .from('messages')
+          .insert([newMessage])
+          .select();
+
+        if (error) throw error;
+        if (data) {
+          setMessages(prev => [data[0], ...prev]);
+        }
+      } catch (error) {
+        if (error instanceof TypeError && error.message === 'Failed to fetch') {
+          console.warn('Network error: Failed to fetch from Supabase. Using local state.');
+          const mockMessage = { ...newMessage, id: Math.random().toString(36).substr(2, 9) };
+          setMessages(prev => [mockMessage as Message, ...prev]);
+        } else {
+          throw error;
+        }
       }
     } catch (error) {
       console.error('Error adding message:', error);
@@ -70,13 +93,27 @@ export const MessageProvider: React.FC<{ children: React.ReactNode }> = ({ child
 
   const markAsRead = async (id: string) => {
     try {
-      const { error } = await supabase
-        .from('messages')
-        .update({ status: 'read' })
-        .eq('id', id);
+      if (!isSupabaseConfigured) {
+        setMessages(prev => prev.map(m => m.id === id ? { ...m, status: 'read' } : m));
+        return;
+      }
 
-      if (error) throw error;
-      setMessages(prev => prev.map(m => m.id === id ? { ...m, status: 'read' } : m));
+      try {
+        const { error } = await supabase
+          .from('messages')
+          .update({ status: 'read' })
+          .eq('id', id);
+
+        if (error) throw error;
+        setMessages(prev => prev.map(m => m.id === id ? { ...m, status: 'read' } : m));
+      } catch (error) {
+        if (error instanceof TypeError && error.message === 'Failed to fetch') {
+          console.warn('Network error: Failed to fetch from Supabase. Using local state.');
+          setMessages(prev => prev.map(m => m.id === id ? { ...m, status: 'read' } : m));
+        } else {
+          throw error;
+        }
+      }
     } catch (error) {
       console.error('Error marking message as read:', error);
       throw error;
@@ -85,13 +122,27 @@ export const MessageProvider: React.FC<{ children: React.ReactNode }> = ({ child
 
   const deleteMessage = async (id: string) => {
     try {
-      const { error } = await supabase
-        .from('messages')
-        .delete()
-        .eq('id', id);
+      if (!isSupabaseConfigured) {
+        setMessages(prev => prev.filter(m => m.id !== id));
+        return;
+      }
 
-      if (error) throw error;
-      setMessages(prev => prev.filter(m => m.id !== id));
+      try {
+        const { error } = await supabase
+          .from('messages')
+          .delete()
+          .eq('id', id);
+
+        if (error) throw error;
+        setMessages(prev => prev.filter(m => m.id !== id));
+      } catch (error) {
+        if (error instanceof TypeError && error.message === 'Failed to fetch') {
+          console.warn('Network error: Failed to fetch from Supabase. Using local state.');
+          setMessages(prev => prev.filter(m => m.id !== id));
+        } else {
+          throw error;
+        }
+      }
     } catch (error) {
       console.error('Error deleting message:', error);
       throw error;

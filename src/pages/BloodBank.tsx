@@ -64,7 +64,7 @@ export default function BloodBank() {
                     : 'bg-slate-100 text-slate-600 hover:bg-slate-200'
                 }`}
               >
-                All Groups
+                {t('blood_bank.all_groups')}
               </button>
               {BLOOD_GROUPS.map(group => (
                 <button
@@ -85,7 +85,7 @@ export default function BloodBank() {
               <Search className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400" size={20} />
               <input 
                 type="text" 
-                placeholder="Search by name or location..."
+                placeholder={t('blood_bank.search_placeholder')}
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
                 className="w-full pl-12 pr-4 py-3 rounded-2xl border border-slate-200 focus:border-red-500 focus:ring-4 focus:ring-red-500/5 outline-none transition-all"
@@ -137,7 +137,7 @@ export default function BloodBank() {
 
                     <div className="space-y-3 mb-8">
                       <div className="flex items-center justify-between p-4 rounded-2xl bg-slate-50 border border-slate-100/50">
-                        <span className="text-xs font-bold text-slate-400 uppercase tracking-widest">Blood Group</span>
+                        <span className="text-xs font-bold text-slate-400 uppercase tracking-widest">{t('blood_bank.group')}</span>
                         <span className="text-lg font-black text-red-500">{donor.bloodGroup}</span>
                       </div>
                     </div>
@@ -147,7 +147,7 @@ export default function BloodBank() {
                         href={`tel:${donor.phone}`} 
                         className="flex items-center justify-center gap-2 w-full py-3.5 rounded-2xl bg-slate-900 text-white font-bold text-sm hover:bg-slate-800 transition-all shadow-lg shadow-slate-900/10"
                       >
-                        <Phone size={18} /> Call
+                        <Phone size={18} /> {t('blood_bank.call')}
                       </a>
                     </div>
                   </div>
@@ -159,8 +159,8 @@ export default function BloodBank() {
               <div className="w-20 h-20 bg-slate-50 text-slate-300 rounded-full flex items-center justify-center mx-auto mb-6">
                 <Search size={40} />
               </div>
-              <h3 className="text-2xl font-bold text-slate-900 mb-2">No Donors Found</h3>
-              <p className="text-slate-500">Try adjusting your filters or search query.</p>
+              <h3 className="text-2xl font-bold text-slate-900 mb-2">{t('blood_bank.no_donors')}</h3>
+              <p className="text-slate-500">{t('blood_bank.no_donors_desc')}</p>
             </div>
           )}
         </div>
@@ -172,13 +172,13 @@ export default function BloodBank() {
         <div className="absolute bottom-0 left-0 w-96 h-96 bg-black/10 rounded-full translate-y-1/2 -translate-x-1/2 blur-3xl"></div>
         
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center relative z-10">
-          <h2 className="text-4xl md:text-5xl font-bold mb-8 tracking-tight">Become a Life Saver</h2>
+          <h2 className="text-4xl md:text-5xl font-bold mb-8 tracking-tight">{t('blood_bank.cta_title')}</h2>
           <p className="text-xl mb-12 opacity-90 leading-relaxed">
-            Register as a blood donor today and help us maintain a steady supply of blood for those in need in Sherpur.
+            {t('blood_bank.cta_desc')}
           </p>
           <div className="flex flex-col sm:flex-row justify-center gap-4">
             <a href="tel:01891773078" className="px-10 py-5 border-2 border-white/30 text-white rounded-2xl font-bold text-lg hover:bg-white/10 transition-all backdrop-blur-sm">
-              Contact Help Desk
+              {t('blood_bank.contact_help')}
             </a>
           </div>
         </div>

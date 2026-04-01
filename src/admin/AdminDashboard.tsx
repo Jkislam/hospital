@@ -30,8 +30,10 @@ import BloodDonorForm from './BloodDonorForm';
 import { Doctor, StaffMember, BloodDonor } from '../types';
 import { useBloodBank } from '../context/BloodBankContext';
 import { Link } from 'react-router-dom';
+import { useLanguage } from '../context/LanguageContext';
 
 export default function AdminDashboard() {
+  const { t } = useLanguage();
   const { doctors, deleteDoctor, loading: doctorsLoading } = useDoctors();
   const { messages, markAsRead, deleteMessage, loading: messagesLoading } = useMessages();
   const { staff, deleteStaff, loading: staffLoading } = useStaff();
@@ -96,57 +98,57 @@ export default function AdminDashboard() {
 
   const handleDeleteStaff = async (id: string) => {
     if (!id) return;
-    if (!window.confirm('Are you sure you want to remove this staff member?')) return;
+    if (!window.confirm(t('admin.dashboard.confirm_delete_staff'))) return;
     
-    const toastId = toast.loading('Removing management member...');
+    const toastId = toast.loading(t('admin.dashboard.toast_deleting_staff'));
     try {
       await deleteStaff(id);
-      toast.success('Management member removed successfully', { id: toastId });
+      toast.success(t('admin.dashboard.toast_deleted_staff'), { id: toastId });
     } catch (error: any) {
       console.error('Delete error:', error);
-      toast.error(`Failed: ${error.message || 'Unknown error'}`, { id: toastId });
+      toast.error(`${t('admin.dashboard.toast_error')}: ${error.message || 'Unknown error'}`, { id: toastId });
     }
   };
 
   const handleDelete = async (id: string) => {
     if (!id) return;
-    if (!window.confirm('Are you sure you want to delete this doctor profile?')) return;
+    if (!window.confirm(t('admin.dashboard.confirm_delete_doctor'))) return;
 
-    const toastId = toast.loading('Deleting doctor profile...');
+    const toastId = toast.loading(t('admin.dashboard.toast_deleting_doctor'));
     try {
       await deleteDoctor(id);
-      toast.success('Doctor deleted successfully', { id: toastId });
+      toast.success(t('admin.dashboard.toast_deleted_doctor'), { id: toastId });
     } catch (error: any) {
       console.error('Delete error:', error);
-      toast.error(`Failed: ${error.message || 'Unknown error'}`, { id: toastId });
+      toast.error(`${t('admin.dashboard.toast_error')}: ${error.message || 'Unknown error'}`, { id: toastId });
     }
   };
 
   const handleDeleteDonor = async (id: string) => {
     if (!id) return;
-    if (!window.confirm('Are you sure you want to delete this donor?')) return;
+    if (!window.confirm(t('admin.dashboard.confirm_delete_donor'))) return;
 
-    const toastId = toast.loading('Deleting donor...');
+    const toastId = toast.loading(t('admin.dashboard.toast_deleting_donor'));
     try {
       await deleteDonor(id);
-      toast.success('Donor deleted successfully', { id: toastId });
+      toast.success(t('admin.dashboard.toast_deleted_donor'), { id: toastId });
     } catch (error: any) {
       console.error('Delete error:', error);
-      toast.error(`Failed: ${error.message || 'Unknown error'}`, { id: toastId });
+      toast.error(`${t('admin.dashboard.toast_error')}: ${error.message || 'Unknown error'}`, { id: toastId });
     }
   };
 
   const handleDeleteMessage = async (id: string) => {
     if (!id) return;
-    if (!window.confirm('Are you sure you want to delete this message?')) return;
+    if (!window.confirm(t('admin.dashboard.confirm_delete_msg'))) return;
 
-    const toastId = toast.loading('Deleting message...');
+    const toastId = toast.loading(t('admin.dashboard.toast_deleting_msg'));
     try {
       await deleteMessage(id);
-      toast.success('Message deleted successfully', { id: toastId });
+      toast.success(t('admin.dashboard.toast_deleted_msg'), { id: toastId });
     } catch (error: any) {
       console.error('Delete error:', error);
-      toast.error(`Failed: ${error.message || 'Unknown error'}`, { id: toastId });
+      toast.error(`${t('admin.dashboard.toast_error')}: ${error.message || 'Unknown error'}`, { id: toastId });
     }
   };
 
@@ -156,9 +158,9 @@ export default function AdminDashboard() {
       {/* Top Quick Navigation */}
       <nav className="bg-slate-900 text-white py-2.5">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex justify-center gap-8 text-sm font-bold">
-          <Link to="/" className="hover:text-medical-blue transition-colors">Home</Link>
-          <Link to="/about" className="hover:text-medical-blue transition-colors">About</Link>
-          <Link to="/contact" className="hover:text-medical-blue transition-colors">Contact</Link>
+          <Link to="/" className="hover:text-medical-blue transition-colors">{t('nav.home')}</Link>
+          <Link to="/about" className="hover:text-medical-blue transition-colors">{t('nav.about')}</Link>
+          <Link to="/contact" className="hover:text-medical-blue transition-colors">{t('nav.contact')}</Link>
         </div>
       </nav>
 
@@ -171,22 +173,22 @@ export default function AdminDashboard() {
                 <Users size={24} />
               </div>
               <div>
-                <h1 className="text-xl font-bold text-slate-900">Admin Dashboard</h1>
-                <p className="text-xs text-slate-500 font-medium uppercase tracking-wider">Doctor Management</p>
+                <h1 className="text-xl font-bold text-slate-900">{t('admin.dashboard.title')}</h1>
+                <p className="text-xs text-slate-500 font-medium uppercase tracking-wider">{t('admin.dashboard.management')}</p>
               </div>
             </div>
             
             <div className="flex items-center gap-4">
               <Link to="/doctors" className="hidden sm:flex items-center gap-2 text-sm font-semibold text-slate-600 hover:text-medical-blue transition-colors">
                 <ExternalLink size={16} />
-                View Site
+                {t('admin.dashboard.view_site')}
               </Link>
               <button 
                 onClick={logout}
                 className="flex items-center gap-2 px-4 py-2 rounded-xl text-sm font-bold text-red-600 hover:bg-red-50 transition-all"
               >
                 <LogOut size={18} />
-                Logout
+                {t('admin.dashboard.logout')}
               </button>
             </div>
           </div>
@@ -201,28 +203,28 @@ export default function AdminDashboard() {
             className={`flex items-center gap-2 px-6 py-3 rounded-2xl font-bold transition-all whitespace-nowrap ${activeTab === 'doctors' ? 'bg-medical-blue text-white shadow-lg shadow-medical-blue/20' : 'bg-white text-slate-600 hover:bg-slate-100 border border-slate-200'}`}
           >
             <Users size={20} />
-            Doctors
+            {t('admin.dashboard.tab_doctors')}
           </button>
           <button 
             onClick={() => setActiveTab('staff')}
             className={`flex items-center gap-2 px-6 py-3 rounded-2xl font-bold transition-all whitespace-nowrap ${activeTab === 'staff' ? 'bg-medical-blue text-white shadow-lg shadow-medical-blue/20' : 'bg-white text-slate-600 hover:bg-slate-100 border border-slate-200'}`}
           >
             <Shield size={20} />
-            Management
+            {t('admin.dashboard.tab_management')}
           </button>
           <button 
             onClick={() => setActiveTab('blood-bank')}
             className={`flex items-center gap-2 px-6 py-3 rounded-2xl font-bold transition-all whitespace-nowrap ${activeTab === 'blood-bank' ? 'bg-medical-blue text-white shadow-lg shadow-medical-blue/20' : 'bg-white text-slate-600 hover:bg-slate-100 border border-slate-200'}`}
           >
             <Droplets size={20} />
-            Blood Bank
+            {t('admin.dashboard.tab_blood_bank')}
           </button>
           <button 
             onClick={() => setActiveTab('messages')}
             className={`flex items-center gap-2 px-6 py-3 rounded-2xl font-bold transition-all whitespace-nowrap ${activeTab === 'messages' ? 'bg-medical-blue text-white shadow-lg shadow-medical-blue/20' : 'bg-white text-slate-600 hover:bg-slate-100 border border-slate-200'}`}
           >
             <MessageSquare size={20} />
-            Messages & Bookings
+            {t('admin.dashboard.tab_messages')}
             {messages.filter(m => m.status === 'unread').length > 0 && (
               <span className="bg-red-500 text-white text-[10px] px-2 py-0.5 rounded-full">
                 {messages.filter(m => m.status === 'unread').length}
@@ -238,10 +240,10 @@ export default function AdminDashboard() {
             <input 
               type="text" 
               placeholder={
-                activeTab === 'doctors' ? "Search doctors..." : 
-                activeTab === 'staff' ? "Search management..." : 
-                activeTab === 'blood-bank' ? "Search donors..." :
-                "Search messages..."
+                activeTab === 'doctors' ? t('admin.dashboard.search_doctors') : 
+                activeTab === 'staff' ? t('admin.dashboard.search_management') : 
+                activeTab === 'blood-bank' ? t('admin.dashboard.search_donors') :
+                t('admin.dashboard.search_messages')
               }
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
@@ -255,8 +257,8 @@ export default function AdminDashboard() {
               className="flex items-center gap-2 bg-medical-blue text-white px-6 py-3 rounded-2xl font-bold hover:bg-medical-blue/90 transition-all shadow-lg shadow-medical-blue/20 w-full md:w-auto justify-center"
             >
               <Plus size={20} />
-              {activeTab === 'doctors' ? 'Add New Doctor' : 
-               activeTab === 'staff' ? 'Add New Management' : 'Add New Donor'}
+              {activeTab === 'doctors' ? t('admin.dashboard.add_doctor') : 
+               activeTab === 'staff' ? t('admin.dashboard.add_management') : t('admin.dashboard.add_donor')}
             </button>
           )}
         </div>
@@ -268,10 +270,10 @@ export default function AdminDashboard() {
               <table className="w-full text-left border-collapse">
                 <thead>
                   <tr className="bg-slate-50 border-b border-slate-200">
-                    <th className="px-8 py-5 text-xs font-bold text-slate-500 uppercase tracking-wider">Doctor</th>
-                    <th className="px-8 py-5 text-xs font-bold text-slate-500 uppercase tracking-wider">Specialty</th>
-                    <th className="px-8 py-5 text-xs font-bold text-slate-500 uppercase tracking-wider">Schedule</th>
-                    <th className="px-8 py-5 text-xs font-bold text-slate-500 uppercase tracking-wider text-right">Actions</th>
+                    <th className="px-8 py-5 text-xs font-bold text-slate-500 uppercase tracking-wider">{t('admin.dashboard.col_doctor')}</th>
+                    <th className="px-8 py-5 text-xs font-bold text-slate-500 uppercase tracking-wider">{t('admin.dashboard.col_specialty')}</th>
+                    <th className="px-8 py-5 text-xs font-bold text-slate-500 uppercase tracking-wider">{t('admin.dashboard.col_schedule')}</th>
+                    <th className="px-8 py-5 text-xs font-bold text-slate-500 uppercase tracking-wider text-right">{t('admin.dashboard.col_actions')}</th>
                   </tr>
                 </thead>
                 <tbody className="divide-y divide-slate-100">
@@ -331,7 +333,7 @@ export default function AdminDashboard() {
                           <div className="w-16 h-16 bg-slate-100 rounded-full flex items-center justify-center text-slate-300">
                             <Search size={32} />
                           </div>
-                          <p className="text-lg font-medium">No doctors found matching your search.</p>
+                          <p className="text-lg font-medium">{t('admin.dashboard.no_doctors')}</p>
                         </div>
                       </td>
                     </tr>
@@ -347,11 +349,11 @@ export default function AdminDashboard() {
               <table className="w-full text-left border-collapse">
                 <thead>
                   <tr className="bg-slate-50 border-b border-slate-200">
-                    <th className="px-8 py-5 text-xs font-bold text-slate-500 uppercase tracking-wider">Donor</th>
-                    <th className="px-8 py-5 text-xs font-bold text-slate-500 uppercase tracking-wider">Blood Group</th>
-                    <th className="px-8 py-5 text-xs font-bold text-slate-500 uppercase tracking-wider">Location</th>
-                    <th className="px-8 py-5 text-xs font-bold text-slate-500 uppercase tracking-wider">Phone</th>
-                    <th className="px-8 py-5 text-xs font-bold text-slate-500 uppercase tracking-wider text-right">Actions</th>
+                    <th className="px-8 py-5 text-xs font-bold text-slate-500 uppercase tracking-wider">{t('admin.dashboard.col_donor')}</th>
+                    <th className="px-8 py-5 text-xs font-bold text-slate-500 uppercase tracking-wider">{t('admin.dashboard.col_blood_group')}</th>
+                    <th className="px-8 py-5 text-xs font-bold text-slate-500 uppercase tracking-wider">{t('admin.dashboard.col_location')}</th>
+                    <th className="px-8 py-5 text-xs font-bold text-slate-500 uppercase tracking-wider">{t('admin.dashboard.col_phone')}</th>
+                    <th className="px-8 py-5 text-xs font-bold text-slate-500 uppercase tracking-wider text-right">{t('admin.dashboard.col_actions')}</th>
                   </tr>
                 </thead>
                 <tbody className="divide-y divide-slate-100">
@@ -416,7 +418,7 @@ export default function AdminDashboard() {
                           <div className="w-16 h-16 bg-slate-100 rounded-full flex items-center justify-center text-slate-300">
                             <Search size={32} />
                           </div>
-                          <p className="text-lg font-medium">No donors found matching your search.</p>
+                          <p className="text-lg font-medium">{t('admin.dashboard.no_donors')}</p>
                         </div>
                       </td>
                     </tr>
@@ -451,7 +453,7 @@ export default function AdminDashboard() {
                       }}
                       className="bg-white text-slate-900 p-3 rounded-xl font-bold flex items-center gap-2 hover:bg-medical-blue hover:text-white transition-all shadow-lg cursor-pointer"
                     >
-                      <Edit2 size={18} /> Edit
+                      <Edit2 size={18} /> {t('admin.dashboard.btn_edit')}
                     </button>
                     <button 
                       type="button"
@@ -461,7 +463,7 @@ export default function AdminDashboard() {
                       }}
                       className="bg-white text-red-600 p-3 rounded-xl font-bold flex items-center gap-2 hover:bg-red-600 hover:text-white transition-all shadow-lg cursor-pointer"
                     >
-                      <Trash2 size={18} /> Delete
+                      <Trash2 size={18} /> {t('admin.dashboard.btn_delete')}
                     </button>
                   </div>
                 </div>
@@ -480,7 +482,7 @@ export default function AdminDashboard() {
                       }}
                       className="flex-1 flex items-center justify-center gap-2 py-2.5 bg-slate-100 text-slate-700 rounded-xl font-bold text-sm hover:bg-medical-blue hover:text-white transition-all cursor-pointer"
                     >
-                      <Edit2 size={16} /> Edit
+                      <Edit2 size={16} /> {t('admin.dashboard.btn_edit')}
                     </button>
                     <button 
                       type="button"
@@ -490,7 +492,7 @@ export default function AdminDashboard() {
                       }}
                       className="flex-1 flex items-center justify-center gap-2 py-2.5 bg-red-50 text-red-600 rounded-xl font-bold text-sm hover:bg-red-600 hover:text-white transition-all cursor-pointer"
                     >
-                      <Trash2 size={16} /> Delete
+                      <Trash2 size={16} /> {t('admin.dashboard.btn_delete')}
                     </button>
                   </div>
                 </div>
@@ -511,7 +513,7 @@ export default function AdminDashboard() {
                     <div className="flex items-center gap-3">
                       <h3 className="text-xl font-bold text-slate-900">{message.name}</h3>
                       {message.status === 'unread' && (
-                        <span className="px-2 py-0.5 bg-medical-blue text-white text-[10px] font-bold rounded-full uppercase tracking-wider">New</span>
+                        <span className="px-2 py-0.5 bg-medical-blue text-white text-[10px] font-bold rounded-full uppercase tracking-wider">{t('admin.dashboard.msg_new')}</span>
                       )}
                     </div>
                     
@@ -528,12 +530,12 @@ export default function AdminDashboard() {
                       </div>
                       <div className="flex items-center gap-2 text-sm text-slate-600">
                         <Calendar size={16} className="text-medical-blue" />
-                        Booking: {new Date(message.date).toLocaleDateString()}
+                        {t('admin.dashboard.msg_booking')}: {new Date(message.date).toLocaleDateString()}
                       </div>
                       {message.doctor_name && (
                         <div className="flex items-center gap-2 text-sm text-slate-600">
                           <Users size={16} className="text-medical-blue" />
-                          Doctor: <span className="font-bold text-slate-900">{message.doctor_name}</span>
+                          {t('admin.dashboard.msg_doctor')}: <span className="font-bold text-slate-900">{message.doctor_name}</span>
                         </div>
                       )}
                     </div>
@@ -544,7 +546,7 @@ export default function AdminDashboard() {
 
                     <div className="flex items-center gap-2 text-[10px] text-slate-400 font-bold uppercase tracking-widest">
                       <Clock size={12} />
-                      Received: {new Date(message.created_at).toLocaleString()}
+                      {t('admin.dashboard.msg_received')}: {new Date(message.created_at).toLocaleString()}
                     </div>
                   </div>
 
@@ -555,7 +557,7 @@ export default function AdminDashboard() {
                         className="flex items-center gap-2 px-4 py-2 bg-green-50 text-green-600 rounded-xl text-xs font-bold hover:bg-green-100 transition-all"
                       >
                         <CheckCircle size={16} />
-                        Mark Read
+                        {t('admin.dashboard.msg_mark_read')}
                       </button>
                     )}
                     <button 
@@ -567,7 +569,7 @@ export default function AdminDashboard() {
                       className="relative z-10 flex items-center gap-2 px-4 py-2 bg-red-50 text-red-600 rounded-xl text-xs font-bold hover:bg-red-100 transition-all cursor-pointer"
                     >
                       <Trash2 size={16} />
-                      Delete
+                      {t('admin.dashboard.msg_delete')}
                     </button>
                   </div>
                 </div>
@@ -579,7 +581,7 @@ export default function AdminDashboard() {
                   <div className="w-16 h-16 bg-slate-100 rounded-full flex items-center justify-center text-slate-300">
                     <MessageSquare size={32} />
                   </div>
-                  <p className="text-lg font-medium text-slate-500">No messages or bookings found.</p>
+                  <p className="text-lg font-medium text-slate-500">{t('admin.dashboard.no_messages')}</p>
                 </div>
               </div>
             )}

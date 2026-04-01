@@ -75,15 +75,15 @@ export default function SearchResults() {
                         referrerPolicy="no-referrer"
                       />
                       <div className="flex-grow">
-                        <h3 className="font-bold text-lg mb-1 group-hover:text-medical-blue">{t(`doctor.${doctor.id}.name`)}</h3>
-                        <p className="text-medical-blue text-sm font-medium mb-3">{t(`doctor.${doctor.id}.specialty`)}</p>
+                        <h3 className="font-bold text-lg mb-1 group-hover:text-medical-blue">{doctor.name}</h3>
+                        <p className="text-medical-blue text-sm font-medium mb-3">{t(doctor.specialty)}</p>
                         <div className="flex items-center gap-2 text-slate-500 text-xs mb-1">
                           <Clock size={14} />
-                          <span>{t(`doctor.${doctor.id}.time`) || doctor.time}</span>
+                          <span>{doctor.time}</span>
                         </div>
                         <div className="flex items-center gap-2 text-slate-500 text-xs">
                           <Calendar size={14} />
-                          <span>{t(`doctor.${doctor.id}.days`) || doctor.days}</span>
+                          <span>{doctor.days}</span>
                         </div>
                       </div>
                     </motion.div>
@@ -107,8 +107,8 @@ export default function SearchResults() {
                       animate={{ opacity: 1, y: 0 }}
                       className="bg-white p-6 rounded-2xl border border-slate-100 shadow-sm hover:shadow-md transition-all"
                     >
-                      <h3 className="font-bold text-xl mb-2">{t(`services.${service.id}.title`) || service.title}</h3>
-                      <p className="text-slate-500 text-sm mb-4 line-clamp-2">{t(`services.${service.id}.desc`) || service.desc}</p>
+                      <h3 className="font-bold text-xl mb-2">{t(service.title)}</h3>
+                      <p className="text-slate-500 text-sm mb-4 line-clamp-2">{t(service.desc)}</p>
                       <Link to="/services" className="text-medical-blue font-semibold text-sm flex items-center gap-1">
                         {t('search.results.view_details')} <ArrowRight size={16} />
                       </Link>

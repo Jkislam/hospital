@@ -405,7 +405,7 @@ export default function Home() {
               </div>
               <div className="absolute -bottom-8 -right-8 bg-medical-blue text-white p-8 rounded-3xl shadow-xl z-20 hidden md:block">
                 <p className="text-4xl font-bold mb-1">1+</p>
-                <p className="text-sm font-medium opacity-80 uppercase tracking-wider">Years of Excellence</p>
+                <p className="text-sm font-medium opacity-80 uppercase tracking-wider">{t('about.years_excellence') || 'Years of Excellence'}</p>
               </div>
             </div>
 
@@ -465,11 +465,11 @@ export default function Home() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex flex-col md:flex-row justify-between items-end mb-16 gap-6">
             <div className="max-w-2xl">
-              <span className="text-medical-blue font-bold tracking-widest uppercase text-sm mb-4 block">Meet Our Experts</span>
-              <h2 className="section-title">Qualified Medical Professionals</h2>
-              <p className="text-slate-600">Our team consists of highly experienced specialists dedicated to providing the best patient care.</p>
+              <span className="text-medical-blue font-bold tracking-widest uppercase text-sm mb-4 block">{t('doctors.badge')}</span>
+              <h2 className="section-title">{t('doctors.title')}</h2>
+              <p className="text-slate-600">{t('doctors.desc')}</p>
             </div>
-            <Link to="/doctors" className="btn-outline mb-2">View All Doctors</Link>
+            <Link to="/doctors" className="btn-outline mb-2">{t('doctors.view_all')}</Link>
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
@@ -484,14 +484,14 @@ export default function Home() {
                   />
                   <div className="absolute inset-0 bg-gradient-to-t from-medical-blue/80 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end p-8">
                     <Link to={`/doctors/${doctor.id}`} className="w-full bg-white text-medical-blue py-3 rounded-xl font-bold text-center">
-                      View Profile & Book
+                      {t('doctors.view_profile')}
                     </Link>
                   </div>
                 </div>
                 <Link to={`/doctors/${doctor.id}`}>
-                  <h3 className="font-bold text-xl mb-1 hover:text-medical-blue transition-colors">{doctor.name}</h3>
+                  <h3 className="font-bold text-xl mb-1 hover:text-medical-blue transition-colors">{t(doctor.name)}</h3>
                 </Link>
-                <p className="text-medical-blue font-medium text-sm mb-2">{doctor.specialty}</p>
+                <p className="text-medical-blue font-medium text-sm mb-2">{t(doctor.specialty)}</p>
                 <div className="flex items-center gap-2 text-slate-500 text-sm">
                   <Clock size={16} />
                   <span>{doctor.time}</span>
@@ -507,11 +507,11 @@ export default function Home() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex flex-col md:flex-row justify-between items-end mb-16 gap-6">
             <div className="max-w-2xl">
-              <span className="text-medical-blue font-bold tracking-widest uppercase text-sm mb-4 block">Save Lives</span>
-              <h2 className="section-title">Our Blood Donors</h2>
-              <p className="text-slate-600">Connect with voluntary blood donors in our community. Your contribution can save a life.</p>
+              <span className="text-medical-blue font-bold tracking-widest uppercase text-sm mb-4 block">{t('blood_bank.badge')}</span>
+              <h2 className="section-title">{t('blood_bank.title')}</h2>
+              <p className="text-slate-600">{t('blood_bank.desc')}</p>
             </div>
-            <Link to="/blood-bank" className="btn-outline mb-2">View All Donors</Link>
+            <Link to="/blood-bank" className="btn-outline mb-2">{t('blood_bank.view_all')}</Link>
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
@@ -526,7 +526,7 @@ export default function Home() {
                   />
                   <div className="absolute inset-0 bg-gradient-to-t from-red-600/80 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end p-8">
                     <a href={`tel:${donor.phone}`} className="w-full bg-white text-red-600 py-3 rounded-xl font-bold text-center flex items-center justify-center gap-2">
-                      <Phone size={18} /> Call Donor
+                      <Phone size={18} /> {t('blood_bank.call')}
                     </a>
                   </div>
                   <div className="absolute top-4 right-4 bg-white text-red-600 w-12 h-12 rounded-2xl flex items-center justify-center font-bold text-lg shadow-lg">
@@ -534,7 +534,7 @@ export default function Home() {
                   </div>
                 </div>
                 <h3 className="font-bold text-xl mb-1">{donor.name}</h3>
-                <p className="text-red-600 font-medium text-sm mb-2">Blood Group: {donor.bloodGroup}</p>
+                <p className="text-red-600 font-medium text-sm mb-2">{t('blood_bank.group')}: {donor.bloodGroup}</p>
                 <div className="flex items-center gap-2 text-slate-500 text-sm">
                   <MapPin size={16} />
                   <span>{donor.address}</span>
@@ -549,8 +549,8 @@ export default function Home() {
       <section className="py-24 bg-medical-blue text-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-16">
-            <h2 className="text-3xl md:text-4xl font-bold mb-4">What Our Patients Say</h2>
-            <p className="text-blue-100">Real feedback from people who trusted us with their health.</p>
+            <h2 className="text-3xl md:text-4xl font-bold mb-4">{t('testimonials.title')}</h2>
+            <p className="text-blue-100">{t('testimonials.desc')}</p>
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
@@ -562,13 +562,13 @@ export default function Home() {
                   ))}
                 </div>
                 <p className="italic mb-8 text-blue-50">
-                  "The care I received at Sherpur Ever Care Hospital was exceptional. The doctors were very attentive and the facilities were top-notch."
+                  "{t('testimonials.quote')}"
                 </p>
                 <div className="flex items-center gap-4">
                   <div className="w-12 h-12 rounded-full bg-blue-400"></div>
                   <div>
-                    <p className="font-bold">Patient Name {i}</p>
-                    <p className="text-xs text-blue-200">Recovered Patient</p>
+                    <p className="font-bold">{t('testimonials.patient')} {i}</p>
+                    <p className="text-xs text-blue-200">{t('testimonials.recovered')}</p>
                   </div>
                 </div>
               </div>
@@ -582,10 +582,10 @@ export default function Home() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-16">
             <div>
-              <span className="text-medical-blue font-bold tracking-widest uppercase text-sm mb-4 block">Find Us</span>
-              <h2 className="section-title">Visit Our Hospital</h2>
+              <span className="text-medical-blue font-bold tracking-widest uppercase text-sm mb-4 block">{t('contact.badge')}</span>
+              <h2 className="section-title">{t('contact.title')}</h2>
               <p className="text-slate-600 mb-8">
-                We are conveniently located in the heart of Sherpur. Visit us for any medical assistance or consultation.
+                {t('contact.desc')}
               </p>
               
               <div className="space-y-6 mb-8">
@@ -594,8 +594,8 @@ export default function Home() {
                     <MapPin size={24} />
                   </div>
                   <div>
-                    <h4 className="font-bold mb-1">Our Location</h4>
-                    <p className="text-slate-500 text-sm">Nurjahan Villa, Narayanpur, Sherpur Sadar Hospital Road, Sherpur</p>
+                    <h4 className="font-bold mb-1">{t('contact.location_title')}</h4>
+                    <p className="text-slate-500 text-sm">{t('contact.location_desc')}</p>
                   </div>
                 </div>
                 <div className="flex items-start gap-4">
@@ -603,13 +603,13 @@ export default function Home() {
                     <Phone size={24} />
                   </div>
                   <div>
-                    <h4 className="font-bold mb-1">Phone Number</h4>
+                    <h4 className="font-bold mb-1">{t('contact.phone_title')}</h4>
                     <p className="text-slate-500 text-sm">01891-773078</p>
                   </div>
                 </div>
               </div>
 
-              <Link to="/contact" className="btn-primary">Get Directions</Link>
+              <Link to="/contact" className="btn-primary">{t('contact.directions')}</Link>
             </div>
             <div className="rounded-3xl overflow-hidden shadow-lg h-[400px] border border-slate-100">
               <iframe 

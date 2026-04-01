@@ -3,14 +3,16 @@ import { Link } from 'react-router-dom';
 import { Helmet } from 'react-helmet-async';
 import { Clock, Calendar, Phone, MessageCircle } from 'lucide-react';
 import { useDoctors } from '../context/DoctorContext';
+import { useLanguage } from '../context/LanguageContext';
 
 export default function Doctors() {
   const { doctors } = useDoctors();
+  const { t } = useLanguage();
 
   return (
     <div className="pt-24">
       <Helmet>
-        <title>Our Doctors | Sherpur Ever Care Hospital | শেরপুর এভারকেয়ার হাসপাতাল</title>
+        <title>{t('nav.doctors')} | Sherpur Ever Care Hospital | শেরপুর এভারকেয়ার হাসপাতাল</title>
         <meta name="description" content="Meet the specialist doctors at Sherpur Ever Care Hospital (শেরপুর এভারকেয়ার হাসপাতাল). Book appointments with the best medical professionals in Sherpur." />
         <meta name="keywords" content="Sherpur doctors, specialist doctors Sherpur, best doctors in Sherpur, শেরপুর এভারকেয়ার হাসপাতাল ডাক্তার" />
         <link rel="canonical" href="http://sherpurevarcarehospital.com/doctors" />
@@ -23,10 +25,10 @@ export default function Doctors() {
             animate={{ opacity: 1, y: 0 }}
             className="text-4xl md:text-5xl font-bold text-slate-900 mb-6"
           >
-            Our Specialist Doctors
+            {t('doctors.page_title')}
           </motion.h1>
           <p className="text-lg text-slate-600 max-w-3xl mx-auto">
-            Meet our team of highly qualified and experienced medical professionals dedicated to your health and recovery.
+            {t('doctors.page_subtitle')}
           </p>
         </div>
       </section>
@@ -54,15 +56,15 @@ export default function Doctors() {
                   />
                   <div className="absolute inset-0 bg-gradient-to-t from-medical-blue/80 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end p-8">
                     <Link to={`/doctors/${doctor.id}`} className="w-full bg-white text-medical-blue py-3 rounded-xl font-bold text-center">
-                      View Profile & Book
+                      {t('doctors.view_profile')}
                     </Link>
                   </div>
                 </div>
                 <div className="p-8">
                   <Link to={`/doctors/${doctor.id}`}>
-                    <h3 className="text-2xl font-bold mb-1 text-slate-900 hover:text-medical-blue transition-colors">{doctor.name}</h3>
+                    <h3 className="text-2xl font-bold mb-1 text-slate-900 hover:text-medical-blue transition-colors">{t(doctor.name)}</h3>
                   </Link>
-                  <p className="text-medical-blue font-semibold mb-6">{doctor.specialty}</p>
+                  <p className="text-medical-blue font-semibold mb-6">{t(doctor.specialty)}</p>
                   
                   <div className="space-y-3 pt-6 border-t border-slate-100">
                     <div className="flex items-center gap-3 text-slate-600">
@@ -71,13 +73,13 @@ export default function Doctors() {
                     </div>
                     <div className="flex items-center gap-3 text-slate-600">
                       <Calendar size={18} className="text-medical-blue" />
-                      <span className="text-sm font-medium">{doctor.days}</span>
+                      <span className="text-sm font-medium">{t(doctor.days)}</span>
                     </div>
                   </div>
 
                   <div className="mt-8 space-y-3">
                     <a href="tel:01891773078" className="flex items-center justify-center gap-2 w-full py-3 rounded-xl border-2 border-medical-blue text-medical-blue font-bold hover:bg-medical-blue hover:text-white transition-all">
-                      <Phone size={18} /> Call for Info
+                      <Phone size={18} /> {t('doctors.call_info')}
                     </a>
                     <a 
                       href="http://wa.me/8801891773078" 
@@ -85,7 +87,7 @@ export default function Doctors() {
                       rel="noopener noreferrer"
                       className="flex items-center justify-center gap-2 w-full py-3 rounded-xl bg-[#25D366] text-white font-bold hover:bg-[#128C7E] transition-all shadow-sm"
                     >
-                      <MessageCircle size={18} /> WhatsApp
+                      <MessageCircle size={18} /> {t('doctors.whatsapp')}
                     </a>
                   </div>
                 </div>
@@ -98,11 +100,11 @@ export default function Doctors() {
       {/* Appointment CTA */}
       <section className="py-24 bg-slate-50">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-          <h2 className="text-3xl font-bold mb-6">Can't find the right specialist?</h2>
+          <h2 className="text-3xl font-bold mb-6">{t('doctors.not_found_title')}</h2>
           <p className="text-lg text-slate-600 mb-10">
-            Contact our help desk for assistance in finding the right doctor for your specific health needs.
+            {t('doctors.not_found_desc')}
           </p>
-          <a href="/contact" className="btn-primary">Contact Help Desk</a>
+          <a href="/contact" className="btn-primary">{t('doctors.contact_help')}</a>
         </div>
       </section>
     </div>

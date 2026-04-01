@@ -19,9 +19,9 @@ export default function About() {
   return (
     <div className="pt-24">
       <Helmet>
-        <title>About Us | Sherpur Ever Care Hospital | শেরপুর এভারকেয়ার হাসপাতাল</title>
-        <meta name="description" content="Learn about Sherpur Ever Care Hospital (শেরপুর এভারকেয়ার হাসপাতাল), our mission, vision, and the team dedicated to providing the best healthcare services in Sherpur." />
-        <meta name="keywords" content="About Sherpur Ever Care Hospital, Sherpur hospital history, best medical team Sherpur, শেরপুর এভারকেয়ার হাসপাতাল সম্পর্কে" />
+        <title>{t('seo.about_title')}</title>
+        <meta name="description" content={t('seo.about_desc')} />
+        <meta name="keywords" content={t('seo.about_keywords')} />
         <link rel="canonical" href="http://sherpurevarcarehospital.com/about" />
       </Helmet>
       {/* Page Header */}

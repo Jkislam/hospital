@@ -1,11 +1,13 @@
 import React, { useState } from 'react';
 import { motion } from 'motion/react';
 import { Helmet } from 'react-helmet-async';
-import { MapPin, Phone, Mail, Clock, Send, CheckCircle, MessageCircle, User } from 'lucide-react';
+import { MapPin, Phone, Mail, Clock, Send, CheckCircle, MessageCircle } from 'lucide-react';
 import { useMessages } from '../context/MessageContext';
 import { useStaff } from '../context/StaffContext';
+import { useLanguage } from '../context/LanguageContext';
 
 export default function Contact() {
+  const { t } = useLanguage();
   const { addMessage } = useMessages();
   const { staff } = useStaff();
   const [formState, setFormState] = useState<'idle' | 'submitting' | 'success'>('idle');
@@ -35,14 +37,14 @@ export default function Contact() {
     } catch (error) {
       console.error('Error sending message:', error);
       setFormState('idle');
-      alert('Failed to send message. Please try again.');
+      alert(t('contact.error_msg') || 'Failed to send message. Please try again.');
     }
   };
 
   return (
     <div className="pt-24">
       <Helmet>
-        <title>Contact Us | Sherpur Ever Care Hospital | শেরপুর এভারকেয়ার হাসপাতাল</title>
+        <title>{t('contact.page_title')} | Sherpur Ever Care Hospital | শেরপুর এভারকেয়ার হাসপাতাল</title>
         <meta name="description" content="Contact Sherpur Ever Care Hospital (শেরপুর এভারকেয়ার হাসপাতাল) for appointments and emergency care. Find our address, phone number, and location in Sherpur." />
         <meta name="keywords" content="Contact Sherpur hospital, Sherpur Ever Care Hospital location, hospital phone number Sherpur, শেরপুর এভারকেয়ার হাসপাতাল যোগাযোগ" />
         <link rel="canonical" href="http://sherpurevarcarehospital.com/contact" />
@@ -55,10 +57,10 @@ export default function Contact() {
             animate={{ opacity: 1, y: 0 }}
             className="text-4xl md:text-5xl font-bold text-slate-900 mb-6"
           >
-            Contact Us
+            {t('contact.page_title')}
           </motion.h1>
           <p className="text-lg text-slate-600 max-w-3xl mx-auto">
-            Have questions or need medical assistance? Reach out to us and we'll get back to you as soon as possible.
+            {t('contact.page_subtitle')}
           </p>
         </div>
       </section>
@@ -69,18 +71,16 @@ export default function Contact() {
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-16">
             {/* Contact Info */}
             <div>
-              <h2 className="text-3xl font-bold mb-8 text-slate-900">Get in Touch</h2>
+              <h2 className="text-3xl font-bold mb-8 text-slate-900">{t('contact.get_in_touch')}</h2>
               <div className="space-y-8">
                 <div className="flex items-start gap-6">
                   <div className="bg-medical-light p-4 rounded-2xl text-medical-blue">
                     <MapPin size={28} />
                   </div>
                   <div>
-                    <h4 className="text-xl font-bold mb-2">Our Location</h4>
+                    <h4 className="text-xl font-bold mb-2">{t('footer.location')}</h4>
                     <p className="text-slate-600 leading-relaxed">
-                      Nurjahan Villa, Narayanpur,<br />
-                      Sherpur Sadar Hospital Road,<br />
-                      Sherpur, Bangladesh
+                      {t('footer.address')}
                     </p>
                   </div>
                 </div>
@@ -89,10 +89,10 @@ export default function Contact() {
                     <Phone size={28} />
                   </div>
                   <div>
-                    <h4 className="text-xl font-bold mb-2">Phone Number</h4>
+                    <h4 className="text-xl font-bold mb-2">{t('footer.phone')}</h4>
                     <p className="text-slate-600 leading-relaxed">
-                      Emergency: 01891-773078<br />
-                      Help Desk: 01891-773078
+                      {t('footer.emergency')}: 01891-773078<br />
+                      {t('footer.help_desk')}: 01891-773078
                     </p>
                   </div>
                 </div>
@@ -101,7 +101,7 @@ export default function Contact() {
                     <Mail size={28} />
                   </div>
                   <div>
-                    <h4 className="text-xl font-bold mb-2">Email Address</h4>
+                    <h4 className="text-xl font-bold mb-2">{t('contact.email_title')}</h4>
                     <p className="text-slate-600 leading-relaxed">
                       evercarehospital815@gmail.com
                     </p>
@@ -112,10 +112,9 @@ export default function Contact() {
                     <Clock size={28} />
                   </div>
                   <div>
-                    <h4 className="text-xl font-bold mb-2">Working Hours</h4>
-                    <p className="text-slate-600 leading-relaxed">
-                      Emergency: 24/7<br />
-                      OPD: 08:00 AM - 08:00 PM
+                    <h4 className="text-xl font-bold mb-2">{t('contact.working_hours')}</h4>
+                    <p className="text-slate-600 leading-relaxed whitespace-pre-line">
+                      {t('contact.working_hours_desc')}
                     </p>
                   </div>
                 </div>
@@ -133,20 +132,20 @@ export default function Contact() {
                   <div className="bg-green-100 w-20 h-20 rounded-full flex items-center justify-center mx-auto mb-6">
                     <CheckCircle className="text-green-600" size={40} />
                   </div>
-                  <h3 className="text-2xl font-bold mb-4">Message Sent!</h3>
-                  <p className="text-slate-600 mb-8">Thank you for reaching out. Our team will contact you shortly.</p>
+                  <h3 className="text-2xl font-bold mb-4">{t('contact.form_success_title')}</h3>
+                  <p className="text-slate-600 mb-8">{t('contact.form_success_desc')}</p>
                   <button 
                     onClick={() => setFormState('idle')}
                     className="btn-primary"
                   >
-                    Send Another Message
+                    {t('contact.send_another')}
                   </button>
                 </motion.div>
               ) : (
                 <form onSubmit={handleSubmit} className="space-y-6">
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                     <div>
-                      <label className="block text-sm font-semibold text-slate-700 mb-2">Full Name</label>
+                      <label className="block text-sm font-semibold text-slate-700 mb-2">{t('contact.full_name')}</label>
                       <input 
                         type="text" 
                         required
@@ -157,7 +156,7 @@ export default function Contact() {
                       />
                     </div>
                     <div>
-                      <label className="block text-sm font-semibold text-slate-700 mb-2">Email Address</label>
+                      <label className="block text-sm font-semibold text-slate-700 mb-2">{t('contact.email_label')}</label>
                       <input 
                         type="email" 
                         required
@@ -170,7 +169,7 @@ export default function Contact() {
                   </div>
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                     <div>
-                      <label className="block text-sm font-semibold text-slate-700 mb-2">Phone Number</label>
+                      <label className="block text-sm font-semibold text-slate-700 mb-2">{t('contact.phone_label')}</label>
                       <input 
                         type="tel" 
                         required
@@ -181,7 +180,7 @@ export default function Contact() {
                       />
                     </div>
                     <div>
-                      <label className="block text-sm font-semibold text-slate-700 mb-2">Booking Date</label>
+                      <label className="block text-sm font-semibold text-slate-700 mb-2">{t('contact.booking_date')}</label>
                       <input 
                         type="date" 
                         required
@@ -192,14 +191,14 @@ export default function Contact() {
                     </div>
                   </div>
                   <div>
-                    <label className="block text-sm font-semibold text-slate-700 mb-2">Your Message</label>
+                    <label className="block text-sm font-semibold text-slate-700 mb-2">{t('contact.message_label')}</label>
                     <textarea 
                       rows={4}
                       required
                       value={formData.message}
                       onChange={(e) => setFormData({...formData, message: e.target.value})}
                       className="w-full px-4 py-3 rounded-xl border border-slate-200 focus:border-medical-blue focus:ring-2 focus:ring-medical-blue/20 outline-none transition-all resize-none"
-                      placeholder="How can we help you?"
+                      placeholder={t('contact.message_placeholder')}
                     ></textarea>
                   </div>
                   <button 
@@ -211,14 +210,14 @@ export default function Contact() {
                       <div className="w-6 h-6 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
                     ) : (
                       <>
-                        <Send size={18} /> Send Message
+                        <Send size={18} /> {t('contact.send_message')}
                       </>
                     )}
                   </button>
 
                   <div className="relative flex items-center justify-center my-6">
                     <div className="flex-grow border-t border-slate-200"></div>
-                    <span className="flex-shrink mx-4 text-slate-400 text-sm font-medium uppercase tracking-wider">or</span>
+                    <span className="flex-shrink mx-4 text-slate-400 text-sm font-medium uppercase tracking-wider">{t('contact.or')}</span>
                     <div className="flex-grow border-t border-slate-200"></div>
                   </div>
 
@@ -229,7 +228,7 @@ export default function Contact() {
                     className="w-full flex items-center justify-center gap-2 bg-[#25D366] text-white py-4 rounded-xl font-bold text-lg hover:bg-[#128C7E] transition-all shadow-md"
                   >
                     <MessageCircle size={24} />
-                    Message on WhatsApp
+                    {t('contact.whatsapp_msg')}
                   </a>
                 </form>
               )}
@@ -248,7 +247,7 @@ export default function Contact() {
               viewport={{ once: true }}
               className="text-3xl md:text-4xl font-bold text-slate-900 mb-4"
             >
-              Management Team
+              {t('contact.management_title')}
             </motion.h2>
             <motion.p 
               initial={{ opacity: 0, y: 20 }}
@@ -257,7 +256,7 @@ export default function Contact() {
               transition={{ delay: 0.1 }}
               className="text-lg text-slate-600"
             >
-              Meet the dedicated leaders of Sherpur Ever Care Hospital.
+              {t('contact.management_subtitle')}
             </motion.p>
           </div>
           
@@ -279,12 +278,12 @@ export default function Contact() {
                     referrerPolicy="no-referrer"
                   />
                   <div className="absolute inset-0 bg-gradient-to-t from-medical-blue/60 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end p-6">
-                    <p className="text-white font-medium text-sm">Sherpur Ever Care Hospital Management</p>
+                    <p className="text-white font-medium text-sm">{t('footer.brand_name')} {t('contact.management_title')}</p>
                   </div>
                 </div>
                 <div className="p-8 text-center bg-white">
                   <h3 className="text-2xl font-bold text-slate-900 mb-1">{member.name}</h3>
-                  <p className="text-medical-blue font-semibold uppercase tracking-wider text-sm">{member.role}</p>
+                  <p className="text-medical-blue font-semibold uppercase tracking-wider text-sm">{t(member.role)}</p>
                 </div>
               </motion.div>
             ))}
@@ -301,7 +300,7 @@ export default function Contact() {
           style={{ border: 0 }} 
           allowFullScreen={true} 
           loading="lazy"
-          title="Hospital Location"
+          title={t('contact.map_title') || "Hospital Location"}
         ></iframe>
       </section>
     </div>

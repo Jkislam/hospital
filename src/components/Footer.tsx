@@ -22,7 +22,7 @@ export default function Footer() {
                   (e.target as HTMLImageElement).style.display = 'none';
                 }}
               />
-              <span className="font-bold text-xl text-white">Sherpur Ever Care</span>
+              <span className="font-bold text-xl text-white">{t('nav.brand')}</span>
             </Link>
             <p className="text-sm leading-relaxed">
               {t('footer.about')}
@@ -41,10 +41,10 @@ export default function Footer() {
               <li><Link to="/about" className="hover:text-white transition-colors">{t('nav.about')}</Link></li>
               <li><Link to="/services" className="hover:text-white transition-colors">{t('nav.services')}</Link></li>
               <li><Link to="/doctors" className="hover:text-white transition-colors">{t('nav.doctors')}</Link></li>
-              <li><Link to="/blood-bank" className="hover:text-white transition-colors">{t('nav.blood_bank') || 'Blood Bank'}</Link></li>
+              <li><Link to="/blood-bank" className="hover:text-white transition-colors">{t('nav.blood_bank')}</Link></li>
               <li><Link to="/contact" className="hover:text-white transition-colors">{t('nav.contact')}</Link></li>
               <li><Link to="/appointment" className="hover:text-white transition-colors">{t('hero.book')}</Link></li>
-              <li><Link to="/admin/dashboard" className="hover:text-white transition-colors">Admin Panel</Link></li>
+              <li><Link to="/admin/dashboard" className="hover:text-white transition-colors">{t('footer.admin')}</Link></li>
             </ul>
           </div>
 
@@ -53,7 +53,7 @@ export default function Footer() {
             <h3 className="text-white font-bold text-lg mb-6">{t('nav.services')}</h3>
             <ul className="space-y-4">
               <li className="hover:text-white transition-colors">{t('services.emergency')}</li>
-              <li className="hover:text-white transition-colors">ICU & CCU</li>
+              <li className="hover:text-white transition-colors">{t('services.icu_title')}</li>
               <li className="hover:text-white transition-colors">{t('services.surgery')}</li>
               <li className="hover:text-white transition-colors">{t('services.maternity')}</li>
               <li className="hover:text-white transition-colors">{t('services.diagnostics')}</li>
@@ -87,9 +87,9 @@ export default function Footer() {
             © {currentYear} {t('hero.title')}. {t('footer.rights')}
           </p>
           <div className="flex gap-6 text-sm text-slate-500">
-            <a href="#" className="hover:text-white">Privacy Policy</a>
-            <a href="#" className="hover:text-white">Terms of Service</a>
-            <Link to="/admin/dashboard" className="hover:text-white">Admin Panel</Link>
+            <a href="#" className="hover:text-white">{t('footer.privacy')}</a>
+            <a href="#" className="hover:text-white">{t('footer.terms')}</a>
+            <Link to="/admin/dashboard" className="hover:text-white">{t('footer.admin')}</Link>
           </div>
         </div>
       </div>

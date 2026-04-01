@@ -1,118 +1,118 @@
 export const DOCTORS = [
   { 
     id: 'sarah-johnson',
-    name: 'Dr. Sarah Johnson', 
-    specialty: 'Cardiologist', 
+    name: 'doctor.sarah-johnson.name', 
+    specialty: 'specialty.cardiologist', 
     time: '10:00 AM - 02:00 PM', 
-    days: 'Sat, Mon, Wed',
+    days: 'days.sat_mon_wed',
     img: '/image/doctor-1.jpg',
-    education: 'MBBS, MD (Cardiology), FACC',
+    education: 'doctor.sarah-johnson.education',
     experience: '12+ Years',
-    bio: 'Dr. Sarah Johnson is a world-renowned cardiologist with extensive experience in non-invasive cardiology and heart failure management. She has published numerous research papers in international medical journals.',
-    fees: '800 BDT'
+    bio: 'doctor.sarah-johnson.bio',
+    fees: 'doctor.sarah-johnson.fees'
   },
   { 
     id: 'michael-chen',
-    name: 'Dr. Michael Chen', 
-    specialty: 'Neurologist', 
+    name: 'doctor.michael-chen.name', 
+    specialty: 'specialty.neurologist', 
     time: '04:00 PM - 08:00 PM', 
-    days: 'Sun, Tue, Thu',
+    days: 'days.sun_tue_thu',
     img: '/image/doctor-2.jpg',
-    education: 'MBBS, MD (Neurology), PhD',
+    education: 'doctor.michael-chen.education',
     experience: '15+ Years',
-    bio: 'Dr. Michael Chen specializes in treating complex neurological disorders including epilepsy, stroke, and Parkinson\'s disease. He is known for his compassionate approach to patient care.',
-    fees: '1000 BDT'
+    bio: 'doctor.michael-chen.bio',
+    fees: 'doctor.michael-chen.fees'
   },
   { 
     id: 'emily-brown',
-    name: 'Dr. Emily Brown', 
-    specialty: 'Pediatrician', 
+    name: 'doctor.emily-brown.name', 
+    specialty: 'specialty.pediatrician', 
     time: '09:00 AM - 01:00 PM', 
-    days: 'Daily',
+    days: 'days.daily',
     img: '/image/doctor-3.jpg',
-    education: 'MBBS, DCH, FCPS (Pediatrics)',
+    education: 'doctor.emily-brown.education',
     experience: '8+ Years',
-    bio: 'Dr. Emily Brown is dedicated to providing the best healthcare for children from birth through adolescence. She focuses on preventive care and child development milestones.',
-    fees: '600 BDT'
+    bio: 'doctor.emily-brown.bio',
+    fees: 'doctor.emily-brown.fees'
   },
   { 
     id: 'robert-wilson',
-    name: 'Dr. Robert Wilson', 
-    specialty: 'Orthopedic Surgeon', 
+    name: 'doctor.robert-wilson.name', 
+    specialty: 'specialty.orthopedic', 
     time: '11:00 AM - 03:00 PM', 
-    days: 'Mon, Wed, Fri',
+    days: 'days.mon_wed_fri',
     img: '/image/doctor-4.jpg',
-    education: 'MBBS, MS (Orthopedics), FRCS',
+    education: 'doctor.robert-wilson.education',
     experience: '20+ Years',
-    bio: 'Dr. Robert Wilson is an expert in joint replacement surgeries and sports medicine. He has successfully performed over 5,000 orthopedic procedures in his career.',
-    fees: '1200 BDT'
+    bio: 'doctor.robert-wilson.bio',
+    fees: 'doctor.robert-wilson.fees'
   },
   { 
     id: 'lisa-garcia',
-    name: 'Dr. Lisa Garcia', 
-    specialty: 'Gynecologist', 
+    name: 'doctor.lisa-garcia.name', 
+    specialty: 'specialty.gynecologist', 
     time: '02:00 PM - 06:00 PM', 
-    days: 'Sat, Sun, Tue',
+    days: 'days.sat_sun_tue',
     img: '/image/doctor-5.jpg',
-    education: 'MBBS, MS (Gynae & Obs), DGO',
+    education: 'doctor.lisa-garcia.education',
     experience: '10+ Years',
-    bio: 'Dr. Lisa Garcia provides comprehensive care for women\'s health, specializing in high-risk pregnancies and minimally invasive gynecological surgeries.',
-    fees: '700 BDT'
+    bio: 'doctor.lisa-garcia.bio',
+    fees: 'doctor.lisa-garcia.fees'
   },
   { 
     id: 'david-kim',
-    name: 'Dr. David Kim', 
-    specialty: 'General Physician', 
+    name: 'doctor.david-kim.name', 
+    specialty: 'specialty.general', 
     time: '08:00 AM - 12:00 PM', 
-    days: 'Daily',
+    days: 'days.daily',
     img: '/image/doctor-6.jpg',
-    education: 'MBBS, BCS (Health), FCPS (Medicine)',
+    education: 'doctor.david-kim.education',
     experience: '7+ Years',
-    bio: 'Dr. David Kim is a highly skilled general physician focused on accurate diagnosis and holistic treatment of common medical conditions.',
-    fees: '500 BDT'
+    bio: 'doctor.david-kim.bio',
+    fees: 'doctor.david-kim.fees'
   },
 ];
 
 export const SERVICES = [
   { 
     id: 'emergency',
-    title: 'Emergency Care', 
-    desc: 'Our 24/7 emergency department is equipped to handle all types of medical emergencies with a rapid response team of specialists.' 
+    title: 'services.emergency', 
+    desc: 'services.emergency_desc' 
   },
   { 
     id: 'icu',
-    title: 'ICU & CCU', 
-    desc: 'Advanced Intensive Care and Coronary Care Units with continuous monitoring and life-support systems for critical patients.' 
+    title: 'services.icu_title', 
+    desc: 'services.icu_desc' 
   },
   { 
     id: 'surgery',
-    title: 'Surgery Unit', 
-    desc: 'Modern operation theaters for all types of major and minor surgeries, including normal deliveries and cesarean sections, performed 24 hours a day.' 
+    title: 'services.surgery', 
+    desc: 'services.surgery_desc' 
   },
   { 
     id: 'maternity',
-    title: 'Maternity Care', 
-    desc: 'Comprehensive prenatal, delivery, and postnatal care. Normal deliveries and cesarean sections are performed 24 hours a day.' 
+    title: 'services.maternity', 
+    desc: 'services.maternity_desc' 
   },
   { 
     id: 'diagnostics',
-    title: 'Diagnostic Lab', 
-    desc: 'Fully automated lab providing 24-hour ultrasonograms, anomaly scans, echocardiograms, digital X-rays, and 12-channel ECG services.' 
+    title: 'services.diagnostics', 
+    desc: 'services.diagnostics_desc' 
   },
   { 
     id: 'pharmacy',
-    title: 'Pharmacy', 
-    desc: 'In-house pharmacy stocked with authentic medicines and healthcare products, available 24 hours for our patients.' 
+    title: 'services.pharmacy_title', 
+    desc: 'services.pharmacy_desc' 
   },
   { 
     id: 'ambulance',
-    title: 'Ambulance Service', 
-    desc: 'Reliable 24/7 ambulance service equipped with oxygen and basic life support for safe patient transportation.' 
+    title: 'services.ambulance_title', 
+    desc: 'services.ambulance_desc' 
   },
   { 
     id: 'opd',
-    title: 'Outpatient (OPD)', 
-    desc: 'Consultations with specialists across various departments including Medicine, Surgery, Pediatrics, and Gynecology.' 
+    title: 'services.opd_title', 
+    desc: 'services.opd_desc' 
   },
 ];
 
@@ -163,14 +163,14 @@ export const STAFF = [
   {
     id: 'staff-1',
     name: 'Md. Karim',
-    role: 'Receptionist',
+    role: 'staff.receptionist',
     phone: '01891-773078',
     img: 'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&q=80&w=200'
   },
   {
     id: 'staff-2',
     name: 'Sultana Begum',
-    role: 'Nurse',
+    role: 'staff.nurse',
     phone: '01711-223344',
     img: 'https://images.unsplash.com/photo-1544005313-94ddf0286df2?auto=format&fit=crop&q=80&w=200'
   }

@@ -4,6 +4,7 @@ import { motion } from 'motion/react';
 import toast from 'react-hot-toast';
 import { X, Save, Image as ImageIcon, Briefcase, GraduationCap, Clock, Calendar, DollarSign, FileText, Upload } from 'lucide-react';
 import { Doctor } from '../types';
+import { useLanguage } from '../context/LanguageContext';
 
 interface DoctorFormProps {
   doctor?: Doctor;
@@ -11,6 +12,7 @@ interface DoctorFormProps {
 }
 
 export default function DoctorForm({ doctor, onClose }: DoctorFormProps) {
+  const { t } = useLanguage();
   const { addDoctor, updateDoctor } = useDoctors();
   const [loading, setLoading] = useState(false);
   const [formData, setFormData] = useState<Doctor>({
@@ -52,7 +54,7 @@ export default function DoctorForm({ doctor, onClose }: DoctorFormProps) {
     e.preventDefault();
     
     if (!formData.img) {
-      alert('Please provide a doctor image (URL or Upload)');
+      alert(t('admin.form.alert_image'));
       return;
     }
 
@@ -60,15 +62,15 @@ export default function DoctorForm({ doctor, onClose }: DoctorFormProps) {
     try {
       if (doctor) {
         await updateDoctor(formData);
-        toast.success('Doctor profile updated successfully');
+        toast.success(t('admin.form.toast_success_doctor_update'));
       } else {
         const { id, ...doctorData } = formData;
         await addDoctor(doctorData);
-        toast.success('New doctor added successfully');
+        toast.success(t('admin.form.toast_success_doctor_add'));
       }
       onClose();
     } catch (error) {
-      toast.error('Failed to save doctor. Please try again.');
+      toast.error(t('admin.form.toast_error'));
     } finally {
       setLoading(false);
     }
@@ -93,8 +95,8 @@ export default function DoctorForm({ doctor, onClose }: DoctorFormProps) {
         {/* Header */}
         <div className="px-8 py-6 border-b border-slate-100 flex justify-between items-center bg-white sticky top-0 z-10">
           <div>
-            <h2 className="text-2xl font-bold text-slate-900">{doctor ? 'Edit Doctor Profile' : 'Add New Doctor'}</h2>
-            <p className="text-sm text-slate-500">Enter the details for the medical professional</p>
+            <h2 className="text-2xl font-bold text-slate-900">{doctor ? t('admin.form.edit_doctor') : t('admin.form.add_doctor')}</h2>
+            <p className="text-sm text-slate-500">{t('admin.form.doctor_subtitle')}</p>
           </div>
           <button 
             onClick={onClose}
@@ -109,11 +111,11 @@ export default function DoctorForm({ doctor, onClose }: DoctorFormProps) {
           <form id="doctor-form" onSubmit={handleSubmit} className="grid grid-cols-1 md:grid-cols-2 gap-8">
             {/* Basic Info */}
             <div className="space-y-6">
-              <h3 className="text-sm font-bold text-medical-blue uppercase tracking-wider">Basic Information</h3>
+              <h3 className="text-sm font-bold text-medical-blue uppercase tracking-wider">{t('admin.form.basic_info')}</h3>
               
               <div className="space-y-4">
                 <div>
-                  <label className="block text-sm font-semibold text-slate-700 mb-2">Full Name</label>
+                  <label className="block text-sm font-semibold text-slate-700 mb-2">{t('admin.form.full_name')}</label>
                   <div className="relative">
                     <input 
                       type="text" 
@@ -128,7 +130,7 @@ export default function DoctorForm({ doctor, onClose }: DoctorFormProps) {
                 </div>
 
                 <div>
-                  <label className="block text-sm font-semibold text-slate-700 mb-2">Specialty</label>
+                  <label className="block text-sm font-semibold text-slate-700 mb-2">{t('admin.form.specialty')}</label>
                   <input 
                     type="text" 
                     name="specialty"
@@ -141,7 +143,7 @@ export default function DoctorForm({ doctor, onClose }: DoctorFormProps) {
                 </div>
 
                 <div>
-                  <label className="block text-sm font-semibold text-slate-700 mb-2">Doctor Image</label>
+                  <label className="block text-sm font-semibold text-slate-700 mb-2">{t('admin.form.image')}</label>
                   <div className="space-y-4">
                     {/* Preview */}
                     {formData.img && (
@@ -171,14 +173,14 @@ export default function DoctorForm({ doctor, onClose }: DoctorFormProps) {
                           name="img"
                           value={formData.img.startsWith('data:') ? '' : formData.img}
                           onChange={handleChange}
-                          placeholder="Paste image URL here..."
+                          placeholder={t('admin.form.image_url_placeholder')}
                           className="w-full pl-12 pr-4 py-3 bg-slate-50 border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-medical-blue/10 focus:border-medical-blue transition-all"
                         />
                       </div>
 
                       <div className="flex items-center gap-4">
                         <div className="h-px flex-grow bg-slate-200"></div>
-                        <span className="text-xs font-bold text-slate-400 uppercase">OR</span>
+                        <span className="text-xs font-bold text-slate-400 uppercase">{t('admin.form.or')}</span>
                         <div className="h-px flex-grow bg-slate-200"></div>
                       </div>
 
@@ -187,7 +189,7 @@ export default function DoctorForm({ doctor, onClose }: DoctorFormProps) {
                         <div className="flex flex-col items-center justify-center pt-5 pb-6">
                           <Upload className="w-8 h-8 mb-3 text-slate-400 group-hover:text-medical-blue transition-colors" />
                           <p className="mb-2 text-sm text-slate-500">
-                            <span className="font-bold">Click to upload</span> or drag and drop
+                            <span className="font-bold">{t('admin.form.upload_click')}</span> {t('admin.form.upload_drag')}
                           </p>
                           <p className="text-xs text-slate-400 uppercase font-medium">PNG, JPG or WebP</p>
                         </div>
@@ -206,11 +208,11 @@ export default function DoctorForm({ doctor, onClose }: DoctorFormProps) {
 
             {/* Professional Info */}
             <div className="space-y-6">
-              <h3 className="text-sm font-bold text-medical-blue uppercase tracking-wider">Professional Details</h3>
+              <h3 className="text-sm font-bold text-medical-blue uppercase tracking-wider">{t('admin.form.prof_details')}</h3>
               
               <div className="space-y-4">
                 <div>
-                  <label className="block text-sm font-semibold text-slate-700 mb-2">Education</label>
+                  <label className="block text-sm font-semibold text-slate-700 mb-2">{t('admin.form.education')}</label>
                   <div className="relative">
                     <GraduationCap className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400" size={18} />
                     <input 
@@ -226,7 +228,7 @@ export default function DoctorForm({ doctor, onClose }: DoctorFormProps) {
                 </div>
 
                 <div>
-                  <label className="block text-sm font-semibold text-slate-700 mb-2">Experience</label>
+                  <label className="block text-sm font-semibold text-slate-700 mb-2">{t('admin.form.experience')}</label>
                   <div className="relative">
                     <Briefcase className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400" size={18} />
                     <input 
@@ -242,7 +244,7 @@ export default function DoctorForm({ doctor, onClose }: DoctorFormProps) {
                 </div>
 
                 <div>
-                  <label className="block text-sm font-semibold text-slate-700 mb-2">Consultation Fees</label>
+                  <label className="block text-sm font-semibold text-slate-700 mb-2">{t('admin.form.fees')}</label>
                   <div className="relative">
                     <DollarSign className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400" size={18} />
                     <input 
@@ -261,11 +263,11 @@ export default function DoctorForm({ doctor, onClose }: DoctorFormProps) {
 
             {/* Schedule */}
             <div className="space-y-6">
-              <h3 className="text-sm font-bold text-medical-blue uppercase tracking-wider">Schedule</h3>
+              <h3 className="text-sm font-bold text-medical-blue uppercase tracking-wider">{t('admin.form.schedule')}</h3>
               
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <div>
-                  <label className="block text-sm font-semibold text-slate-700 mb-2">Available Days</label>
+                  <label className="block text-sm font-semibold text-slate-700 mb-2">{t('admin.form.days')}</label>
                   <div className="relative">
                     <Calendar className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400" size={18} />
                     <input 
@@ -280,7 +282,7 @@ export default function DoctorForm({ doctor, onClose }: DoctorFormProps) {
                   </div>
                 </div>
                 <div>
-                  <label className="block text-sm font-semibold text-slate-700 mb-2">Available Time</label>
+                  <label className="block text-sm font-semibold text-slate-700 mb-2">{t('admin.form.time')}</label>
                   <div className="relative">
                     <Clock className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400" size={18} />
                     <input 
@@ -299,9 +301,9 @@ export default function DoctorForm({ doctor, onClose }: DoctorFormProps) {
 
             {/* Bio */}
             <div className="md:col-span-2 space-y-6">
-              <h3 className="text-sm font-bold text-medical-blue uppercase tracking-wider">Biography</h3>
+              <h3 className="text-sm font-bold text-medical-blue uppercase tracking-wider">{t('admin.form.bio')}</h3>
               <div>
-                <label className="block text-sm font-semibold text-slate-700 mb-2">Doctor's Bio</label>
+                <label className="block text-sm font-semibold text-slate-700 mb-2">{t('admin.form.bio_label')}</label>
                 <div className="relative">
                   <FileText className="absolute left-4 top-4 text-slate-400" size={18} />
                   <textarea 
@@ -310,7 +312,7 @@ export default function DoctorForm({ doctor, onClose }: DoctorFormProps) {
                     onChange={handleChange}
                     required
                     rows={4}
-                    placeholder="Describe the doctor's background, achievements, and approach to care..."
+                    placeholder={t('admin.form.bio_placeholder')}
                     className="w-full pl-12 pr-4 py-3 bg-slate-50 border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-medical-blue/10 focus:border-medical-blue transition-all resize-none"
                   />
                 </div>
@@ -326,7 +328,7 @@ export default function DoctorForm({ doctor, onClose }: DoctorFormProps) {
             onClick={onClose}
             className="px-6 py-3 rounded-xl font-bold text-slate-600 hover:bg-slate-200 transition-all"
           >
-            Cancel
+            {t('admin.form.cancel')}
           </button>
           <button 
             type="submit"
@@ -335,7 +337,7 @@ export default function DoctorForm({ doctor, onClose }: DoctorFormProps) {
             className="flex items-center gap-2 bg-medical-blue text-white px-8 py-3 rounded-xl font-bold hover:bg-medical-blue/90 transition-all shadow-lg shadow-medical-blue/20 disabled:opacity-50"
           >
             <Save size={20} />
-            {loading ? 'Saving...' : (doctor ? 'Update Profile' : 'Save Doctor')}
+            {loading ? t('admin.form.saving') : (doctor ? t('admin.form.update') : t('admin.form.save_doctor'))}
           </button>
         </div>
       </motion.div>

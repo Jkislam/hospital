@@ -32,16 +32,18 @@ export const BloodBankProvider: React.FC<{ children: React.ReactNode }> = ({ chi
         .order('name');
 
       if (error) {
-        console.error('Error fetching donors from Supabase:', error);
+        console.warn('Supabase fetch failed for donors, using fallback data:', error.message);
         setDonors(BLOOD_DONORS);
         return;
       }
       
-      // If Supabase is configured and returns data (even empty), use it.
-      // Only fallback to constants if data is null or undefined.
       setDonors(data || []);
     } catch (error) {
-      console.error('Error fetching blood donors:', error);
+      if (error instanceof TypeError && error.message === 'Failed to fetch') {
+        console.warn('Network error: Failed to fetch from Supabase. Using fallback data.');
+      } else {
+        console.error('Error fetching blood donors:', error);
+      }
       setDonors(BLOOD_DONORS);
     } finally {
       setLoading(false);
@@ -65,14 +67,24 @@ export const BloodBankProvider: React.FC<{ children: React.ReactNode }> = ({ chi
         return;
       }
 
-      const { data, error } = await supabase
-        .from('blood_donors')
-        .insert([donorData])
-        .select();
+      try {
+        const { data, error } = await supabase
+          .from('blood_donors')
+          .insert([donorData])
+          .select();
 
-      if (error) throw error;
-      if (data) {
-        setDonors(prev => [...prev, data[0]]);
+        if (error) throw error;
+        if (data) {
+          setDonors(prev => [...prev, data[0]]);
+        }
+      } catch (error) {
+        if (error instanceof TypeError && error.message === 'Failed to fetch') {
+          console.warn('Network error: Failed to fetch from Supabase. Using local state.');
+          const newDonor = { ...donorData, id: Math.random().toString(36).substr(2, 9) };
+          setDonors(prev => [...prev, newDonor]);
+        } else {
+          throw error;
+        }
       }
     } catch (error) {
       console.error('Error adding blood donor:', error);
@@ -101,13 +113,22 @@ export const BloodBankProvider: React.FC<{ children: React.ReactNode }> = ({ chi
         return;
       }
 
-      const { error } = await supabase
-        .from('blood_donors')
-        .update(donorData)
-        .eq('id', id);
+      try {
+        const { error } = await supabase
+          .from('blood_donors')
+          .update(donorData)
+          .eq('id', id);
 
-      if (error) throw error;
-      setDonors(prev => prev.map(d => d.id === id ? { ...d, ...donorData } : d));
+        if (error) throw error;
+        setDonors(prev => prev.map(d => d.id === id ? { ...d, ...donorData } : d));
+      } catch (error) {
+        if (error instanceof TypeError && error.message === 'Failed to fetch') {
+          console.warn('Network error: Failed to fetch from Supabase. Using local state.');
+          setDonors(prev => prev.map(d => d.id === id ? { ...d, ...donorData } : d));
+        } else {
+          throw error;
+        }
+      }
     } catch (error) {
       console.error('Error updating blood donor:', error);
       throw error;
@@ -121,13 +142,22 @@ export const BloodBankProvider: React.FC<{ children: React.ReactNode }> = ({ chi
         return;
       }
 
-      const { error } = await supabase
-        .from('blood_donors')
-        .delete()
-        .eq('id', id);
+      try {
+        const { error } = await supabase
+          .from('blood_donors')
+          .delete()
+          .eq('id', id);
 
-      if (error) throw error;
-      setDonors(prev => prev.filter(d => d.id !== id));
+        if (error) throw error;
+        setDonors(prev => prev.filter(d => d.id !== id));
+      } catch (error) {
+        if (error instanceof TypeError && error.message === 'Failed to fetch') {
+          console.warn('Network error: Failed to fetch from Supabase. Using local state.');
+          setDonors(prev => prev.filter(d => d.id !== id));
+        } else {
+          throw error;
+        }
+      }
     } catch (error) {
       console.error('Error deleting blood donor:', error);
       throw error;

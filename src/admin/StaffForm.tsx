@@ -4,6 +4,7 @@ import toast from 'react-hot-toast';
 import { X, Upload, Image as ImageIcon, Check } from 'lucide-react';
 import { StaffMember } from '../types';
 import { useStaff } from '../context/StaffContext';
+import { useLanguage } from '../context/LanguageContext';
 
 interface StaffFormProps {
   member?: StaffMember;
@@ -11,6 +12,7 @@ interface StaffFormProps {
 }
 
 export default function StaffForm({ member, onClose }: StaffFormProps) {
+  const { t } = useLanguage();
   const { updateStaff, addStaff } = useStaff();
   const [loading, setLoading] = useState(false);
   const [formData, setFormData] = useState<Omit<StaffMember, 'id'>>({
@@ -40,14 +42,14 @@ export default function StaffForm({ member, onClose }: StaffFormProps) {
     try {
       if (member) {
         await updateStaff(member.id, formData);
-        toast.success('Staff member updated successfully');
+        toast.success(t('admin.form.toast_success_staff_update'));
       } else {
         await addStaff(formData);
-        toast.success('New staff member added successfully');
+        toast.success(t('admin.form.toast_success_staff_add'));
       }
       onClose();
     } catch (error) {
-      toast.error('Failed to save staff member. Please try again.');
+      toast.error(t('admin.form.toast_error'));
     } finally {
       setLoading(false);
     }
@@ -67,8 +69,8 @@ export default function StaffForm({ member, onClose }: StaffFormProps) {
       >
         <div className="px-8 py-6 border-b border-slate-100 flex justify-between items-center bg-slate-50 shrink-0">
           <div>
-            <h2 className="text-xl font-bold text-slate-900">{member ? 'Edit Staff Member' : 'Add New Management'}</h2>
-            <p className="text-xs text-slate-500 font-medium uppercase tracking-wider">{member ? member.role : 'Hospital Leadership'}</p>
+            <h2 className="text-xl font-bold text-slate-900">{member ? t('admin.form.edit_staff') : t('admin.form.add_management')}</h2>
+            <p className="text-xs text-slate-500 font-medium uppercase tracking-wider">{member ? member.role : t('admin.form.leadership')}</p>
           </div>
           <button onClick={onClose} className="p-2 hover:bg-white rounded-full transition-colors">
             <X size={20} className="text-slate-400" />
@@ -100,39 +102,39 @@ export default function StaffForm({ member, onClose }: StaffFormProps) {
                 accept="image/*"
                 className="hidden"
               />
-              <p className="text-xs text-slate-400 font-medium">Click image to upload new photo</p>
+              <p className="text-xs text-slate-400 font-medium">{t('admin.form.upload_click_photo')}</p>
             </div>
 
             <div className="space-y-4">
               <div>
-                <label className="block text-sm font-bold text-slate-700 mb-2">Full Name</label>
+                <label className="block text-sm font-bold text-slate-700 mb-2">{t('admin.form.full_name')}</label>
                 <input 
                   type="text" 
                   required
                   value={formData.name}
                   onChange={(e) => setFormData({ ...formData, name: e.target.value })}
                   className="w-full px-4 py-3 rounded-xl border border-slate-200 focus:border-medical-blue focus:ring-2 focus:ring-medical-blue/10 outline-none transition-all"
-                  placeholder="Enter full name"
+                  placeholder={t('admin.form.full_name_placeholder')}
                 />
               </div>
 
               {!member && (
                 <div>
-                  <label className="block text-sm font-bold text-slate-700 mb-2">Role / Designation</label>
+                  <label className="block text-sm font-bold text-slate-700 mb-2">{t('admin.form.role')}</label>
                   <input 
                     type="text" 
                     required
                     value={formData.role}
                     onChange={(e) => setFormData({ ...formData, role: e.target.value })}
                     className="w-full px-4 py-3 rounded-xl border border-slate-200 focus:border-medical-blue focus:ring-2 focus:ring-medical-blue/10 outline-none transition-all"
-                    placeholder="e.g. Director, Manager"
+                    placeholder={t('admin.form.role_placeholder')}
                   />
                 </div>
               )}
               
               {member && (
                 <div>
-                <label className="block text-sm font-bold text-slate-700 mb-2">Role / Designation</label>
+                <label className="block text-sm font-bold text-slate-700 mb-2">{t('admin.form.role')}</label>
                 <input 
                   type="text" 
                   required
@@ -144,7 +146,7 @@ export default function StaffForm({ member, onClose }: StaffFormProps) {
               )}
 
               <div>
-                <label className="block text-sm font-bold text-slate-700 mb-2">Image URL (Optional)</label>
+                <label className="block text-sm font-bold text-slate-700 mb-2">{t('admin.form.image_url')}</label>
                 <input 
                   type="text" 
                   value={formData.img.startsWith('data:') ? '' : formData.img}
@@ -155,7 +157,7 @@ export default function StaffForm({ member, onClose }: StaffFormProps) {
                   placeholder="https://example.com/image.jpg"
                   className="w-full px-4 py-3 rounded-xl border border-slate-200 focus:border-medical-blue focus:ring-2 focus:ring-medical-blue/10 outline-none transition-all"
                 />
-                <p className="text-[10px] text-slate-400 mt-1 italic">Note: Uploading a file will override the URL.</p>
+                <p className="text-[10px] text-slate-400 mt-1 italic">{t('admin.form.upload_note')}</p>
               </div>
             </div>
           </div>
@@ -167,7 +169,7 @@ export default function StaffForm({ member, onClose }: StaffFormProps) {
                 onClick={onClose}
                 className="flex-1 px-6 py-3 rounded-xl font-bold text-slate-600 hover:bg-slate-100 transition-all"
               >
-                Cancel
+                {t('admin.form.cancel')}
               </button>
               <button 
                 type="submit"
@@ -175,7 +177,7 @@ export default function StaffForm({ member, onClose }: StaffFormProps) {
                 className="flex-1 bg-medical-blue text-white px-6 py-3 rounded-xl font-bold hover:bg-medical-blue/90 transition-all shadow-lg shadow-medical-blue/20 flex items-center justify-center gap-2 disabled:opacity-50"
               >
                 <Check size={20} />
-                {loading ? 'Saving...' : (member ? 'Save Changes' : 'Add Member')}
+                {loading ? t('admin.form.saving') : (member ? t('admin.form.save_changes') : t('admin.form.add_member'))}
               </button>
             </div>
           </div>

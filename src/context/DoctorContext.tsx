@@ -32,11 +32,22 @@ export const DoctorProvider: React.FC<{ children: React.ReactNode }> = ({ childr
         .select('*')
         .order('name');
 
-      if (error) throw error;
+      if (error) {
+        // If Supabase is configured but fails (e.g. project deleted/inactive), 
+        // we log it as a warning and use constants as fallback.
+        console.warn('Supabase fetch failed, using fallback data:', error.message);
+        setDoctors(DOCTORS);
+        return;
+      }
+      
       setDoctors(data || []);
     } catch (error) {
-      console.error('Error fetching doctors:', error);
-      // Fallback to constants if fetch fails
+      // Handle network errors like "Failed to fetch"
+      if (error instanceof TypeError && error.message === 'Failed to fetch') {
+        console.warn('Network error: Failed to fetch from Supabase. Using fallback data.');
+      } else {
+        console.error('Error fetching doctors:', error);
+      }
       setDoctors(DOCTORS);
     } finally {
       setLoading(false);
@@ -60,14 +71,24 @@ export const DoctorProvider: React.FC<{ children: React.ReactNode }> = ({ childr
         return;
       }
 
-      const { data, error } = await supabase
-        .from('doctors')
-        .insert([doctorData])
-        .select();
+      try {
+        const { data, error } = await supabase
+          .from('doctors')
+          .insert([doctorData])
+          .select();
 
-      if (error) throw error;
-      if (data) {
-        setDoctors(prev => [...prev, data[0]]);
+        if (error) throw error;
+        if (data) {
+          setDoctors(prev => [...prev, data[0]]);
+        }
+      } catch (error) {
+        if (error instanceof TypeError && error.message === 'Failed to fetch') {
+          console.warn('Network error: Failed to fetch from Supabase. Using local state.');
+          const newDoctor = { ...doctorData, id: Math.random().toString(36).substr(2, 9) };
+          setDoctors(prev => [...prev, newDoctor as Doctor]);
+        } else {
+          throw error;
+        }
       }
     } catch (error) {
       console.error('Error adding doctor:', error);
@@ -89,13 +110,22 @@ export const DoctorProvider: React.FC<{ children: React.ReactNode }> = ({ childr
         return;
       }
 
-      const { error } = await supabase
-        .from('doctors')
-        .update(updatedDoctor)
-        .eq('id', updatedDoctor.id);
+      try {
+        const { error } = await supabase
+          .from('doctors')
+          .update(updatedDoctor)
+          .eq('id', updatedDoctor.id);
 
-      if (error) throw error;
-      setDoctors(prev => prev.map(d => d.id === updatedDoctor.id ? updatedDoctor : d));
+        if (error) throw error;
+        setDoctors(prev => prev.map(d => d.id === updatedDoctor.id ? updatedDoctor : d));
+      } catch (error) {
+        if (error instanceof TypeError && error.message === 'Failed to fetch') {
+          console.warn('Network error: Failed to fetch from Supabase. Using local state.');
+          setDoctors(prev => prev.map(d => d.id === updatedDoctor.id ? updatedDoctor : d));
+        } else {
+          throw error;
+        }
+      }
     } catch (error) {
       console.error('Error updating doctor:', error);
       throw error;
@@ -109,13 +139,22 @@ export const DoctorProvider: React.FC<{ children: React.ReactNode }> = ({ childr
         return;
       }
 
-      const { error } = await supabase
-        .from('doctors')
-        .delete()
-        .eq('id', id);
+      try {
+        const { error } = await supabase
+          .from('doctors')
+          .delete()
+          .eq('id', id);
 
-      if (error) throw error;
-      setDoctors(prev => prev.filter(d => d.id !== id));
+        if (error) throw error;
+        setDoctors(prev => prev.filter(d => d.id !== id));
+      } catch (error) {
+        if (error instanceof TypeError && error.message === 'Failed to fetch') {
+          console.warn('Network error: Failed to fetch from Supabase. Using local state.');
+          setDoctors(prev => prev.filter(d => d.id !== id));
+        } else {
+          throw error;
+        }
+      }
     } catch (error) {
       console.error('Error deleting doctor:', error);
       throw error;

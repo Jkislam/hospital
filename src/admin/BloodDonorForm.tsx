@@ -4,6 +4,7 @@ import toast from 'react-hot-toast';
 import { X, Upload, Check, Droplets, User, Phone, MapPin } from 'lucide-react';
 import { BloodDonor } from '../types';
 import { useBloodBank } from '../context/BloodBankContext';
+import { useLanguage } from '../context/LanguageContext';
 
 interface BloodDonorFormProps {
   donor?: BloodDonor;
@@ -13,6 +14,7 @@ interface BloodDonorFormProps {
 const BLOOD_GROUPS = ['A+', 'A-', 'B+', 'B-', 'O+', 'O-', 'AB+', 'AB-'];
 
 export default function BloodDonorForm({ donor, onClose }: BloodDonorFormProps) {
+  const { t } = useLanguage();
   const { addDonor, updateDonor } = useBloodBank();
   const [loading, setLoading] = useState(false);
   const [formData, setFormData] = useState<Omit<BloodDonor, 'id'>>({
@@ -44,14 +46,14 @@ export default function BloodDonorForm({ donor, onClose }: BloodDonorFormProps) 
     try {
       if (donor) {
         await updateDonor(donor.id, formData);
-        toast.success('Donor information updated successfully');
+        toast.success(t('admin.form.toast_success_donor_update'));
       } else {
         await addDonor(formData);
-        toast.success('New donor added successfully');
+        toast.success(t('admin.form.toast_success_donor_add'));
       }
       onClose();
     } catch (error) {
-      toast.error('Failed to save donor. Please try again.');
+      toast.error(t('admin.form.toast_error'));
     } finally {
       setLoading(false);
     }
@@ -71,8 +73,8 @@ export default function BloodDonorForm({ donor, onClose }: BloodDonorFormProps) 
       >
         <div className="px-8 py-6 border-b border-slate-100 flex justify-between items-center bg-slate-50 shrink-0">
           <div>
-            <h2 className="text-xl font-bold text-slate-900">{donor ? 'Edit Donor' : 'Add New Donor'}</h2>
-            <p className="text-xs text-slate-500 font-medium uppercase tracking-wider">Blood Bank Management</p>
+            <h2 className="text-xl font-bold text-slate-900">{donor ? t('admin.form.edit_donor') : t('admin.form.add_donor')}</h2>
+            <p className="text-xs text-slate-500 font-medium uppercase tracking-wider">{t('admin.form.blood_bank_management')}</p>
           </div>
           <button onClick={onClose} className="p-2 hover:bg-white rounded-full transition-colors">
             <X size={20} className="text-slate-400" />
@@ -104,14 +106,14 @@ export default function BloodDonorForm({ donor, onClose }: BloodDonorFormProps) 
                 accept="image/*"
                 className="hidden"
               />
-              <p className="text-xs text-slate-400 font-medium">Click image to upload new photo</p>
+              <p className="text-xs text-slate-400 font-medium">{t('admin.form.upload_click_photo')}</p>
             </div>
 
             <div className="space-y-4">
               <div>
                 <label className="block text-sm font-bold text-slate-700 mb-2 flex items-center gap-2">
                   <User size={16} className="text-medical-blue" />
-                  Full Name
+                  {t('admin.form.full_name')}
                 </label>
                 <input 
                   type="text" 
@@ -119,14 +121,14 @@ export default function BloodDonorForm({ donor, onClose }: BloodDonorFormProps) 
                   value={formData.name}
                   onChange={(e) => setFormData({ ...formData, name: e.target.value })}
                   className="w-full px-4 py-3 rounded-xl border border-slate-200 focus:border-medical-blue focus:ring-2 focus:ring-medical-blue/10 outline-none transition-all"
-                  placeholder="Enter donor name"
+                  placeholder={t('admin.form.full_name_placeholder')}
                 />
               </div>
 
               <div>
                 <label className="block text-sm font-bold text-slate-700 mb-2 flex items-center gap-2">
                   <Droplets size={16} className="text-medical-blue" />
-                  Blood Group
+                  {t('admin.form.blood_group')}
                 </label>
                 <select 
                   required
@@ -143,7 +145,7 @@ export default function BloodDonorForm({ donor, onClose }: BloodDonorFormProps) 
               <div>
                 <label className="block text-sm font-bold text-slate-700 mb-2 flex items-center gap-2">
                   <Phone size={16} className="text-medical-blue" />
-                  Phone Number
+                  {t('admin.form.phone')}
                 </label>
                 <input 
                   type="tel" 
@@ -158,7 +160,7 @@ export default function BloodDonorForm({ donor, onClose }: BloodDonorFormProps) 
               <div>
                 <label className="block text-sm font-bold text-slate-700 mb-2 flex items-center gap-2">
                   <MapPin size={16} className="text-medical-blue" />
-                  Address / Location
+                  {t('admin.form.location')}
                 </label>
                 <input 
                   type="text" 
@@ -171,7 +173,7 @@ export default function BloodDonorForm({ donor, onClose }: BloodDonorFormProps) 
               </div>
 
               <div>
-                <label className="block text-sm font-bold text-slate-700 mb-2">Image URL (Optional)</label>
+                <label className="block text-sm font-bold text-slate-700 mb-2">{t('admin.form.image_url')}</label>
                 <input 
                   type="text" 
                   value={formData.img.startsWith('data:') ? '' : formData.img}
@@ -193,7 +195,7 @@ export default function BloodDonorForm({ donor, onClose }: BloodDonorFormProps) 
                 onClick={onClose}
                 className="flex-1 px-6 py-3 rounded-xl font-bold text-slate-600 hover:bg-slate-100 transition-all"
               >
-                Cancel
+                {t('admin.form.cancel')}
               </button>
               <button 
                 type="submit"
@@ -201,7 +203,7 @@ export default function BloodDonorForm({ donor, onClose }: BloodDonorFormProps) 
                 className="flex-1 bg-medical-blue text-white px-6 py-3 rounded-xl font-bold hover:bg-medical-blue/90 transition-all shadow-lg shadow-medical-blue/20 flex items-center justify-center gap-2 disabled:opacity-50"
               >
                 <Check size={20} />
-                {loading ? 'Saving...' : (donor ? 'Save Changes' : 'Add Donor')}
+                {loading ? t('admin.form.saving') : (donor ? t('admin.form.save_changes') : t('admin.form.add_donor'))}
               </button>
             </div>
           </div>

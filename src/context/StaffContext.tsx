@@ -31,11 +31,18 @@ export const StaffProvider: React.FC<{ children: React.ReactNode }> = ({ childre
         .select('*')
         .order('name');
 
-      if (error) throw error;
+      if (error) {
+        console.warn('Supabase fetch failed for staff:', error.message);
+        setStaff(STAFF as StaffMember[]);
+        return;
+      }
       setStaff(data || []);
     } catch (error) {
-      console.error('Error fetching staff:', error);
-      // Fallback to constants if fetch fails
+      if (error instanceof TypeError && error.message === 'Failed to fetch') {
+        console.warn('Network error: Failed to fetch from Supabase. Using fallback staff data.');
+      } else {
+        console.error('Error fetching staff:', error);
+      }
       setStaff(STAFF as StaffMember[]);
     } finally {
       setLoading(false);
@@ -67,13 +74,22 @@ export const StaffProvider: React.FC<{ children: React.ReactNode }> = ({ childre
         return;
       }
 
-      const { error } = await supabase
-        .from('staff')
-        .update(updatedStaff)
-        .eq('id', id);
+      try {
+        const { error } = await supabase
+          .from('staff')
+          .update(updatedStaff)
+          .eq('id', id);
 
-      if (error) throw error;
-      setStaff(prev => prev.map(s => s.id === id ? { ...s, ...updatedStaff } : s));
+        if (error) throw error;
+        setStaff(prev => prev.map(s => s.id === id ? { ...s, ...updatedStaff } : s));
+      } catch (error) {
+        if (error instanceof TypeError && error.message === 'Failed to fetch') {
+          console.warn('Network error: Failed to fetch from Supabase. Using local state.');
+          setStaff(prev => prev.map(s => s.id === id ? { ...s, ...updatedStaff } : s));
+        } else {
+          throw error;
+        }
+      }
     } catch (error) {
       console.error('Error updating staff:', error);
       throw error;
@@ -88,14 +104,24 @@ export const StaffProvider: React.FC<{ children: React.ReactNode }> = ({ childre
         return;
       }
 
-      const { data, error } = await supabase
-        .from('staff')
-        .insert([newMember])
-        .select();
+      try {
+        const { data, error } = await supabase
+          .from('staff')
+          .insert([newMember])
+          .select();
 
-      if (error) throw error;
-      if (data) {
-        setStaff(prev => [...prev, data[0]]);
+        if (error) throw error;
+        if (data) {
+          setStaff(prev => [...prev, data[0]]);
+        }
+      } catch (error) {
+        if (error instanceof TypeError && error.message === 'Failed to fetch') {
+          console.warn('Network error: Failed to fetch from Supabase. Using local state.');
+          const member = { ...newMember, id: Math.random().toString(36).substr(2, 9) };
+          setStaff(prev => [...prev, member]);
+        } else {
+          throw error;
+        }
       }
     } catch (error) {
       console.error('Error adding staff:', error);
@@ -110,13 +136,22 @@ export const StaffProvider: React.FC<{ children: React.ReactNode }> = ({ childre
         return;
       }
 
-      const { error } = await supabase
-        .from('staff')
-        .delete()
-        .eq('id', id);
+      try {
+        const { error } = await supabase
+          .from('staff')
+          .delete()
+          .eq('id', id);
 
-      if (error) throw error;
-      setStaff(prev => prev.filter(s => s.id !== id));
+        if (error) throw error;
+        setStaff(prev => prev.filter(s => s.id !== id));
+      } catch (error) {
+        if (error instanceof TypeError && error.message === 'Failed to fetch') {
+          console.warn('Network error: Failed to fetch from Supabase. Using local state.');
+          setStaff(prev => prev.filter(s => s.id !== id));
+        } else {
+          throw error;
+        }
+      }
     } catch (error) {
       console.error('Error deleting staff:', error);
       throw error;
